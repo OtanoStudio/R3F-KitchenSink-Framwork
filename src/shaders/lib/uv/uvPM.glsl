@@ -15,27 +15,8 @@ vec2 uvPM( sampler2D heightMap, vec2 uv, vec3 viewDir, float heightScale )
 
 }
 
-// discard fragments outside of the texture parallax mapping
-vec2 uvPM( sampler2D heightMap, vec2 uv, vec3 viewDir, float heightScale, bool clipEdges ) 
-{
-
-    float height = texture( heightMap, uv ).r;
-
-    vec2 parallaxOffset = viewDir.xy / viewDir.z * ( height * heightScale );
-
-    vec2 finalUV = uv - parallaxOffset;
-
-    if( clipEdges )
-    {
-        if( finalUV.x > 1.0 || finalUV.y > 1.0 || finalUV.x < 0.0 || finalUV.y < 0.0 ) discard;
-    }
-
-    return finalUV;
-
-}
-
 // steep parallax mapping
-vec2 uvPM( sampler2D heightMap, vec2 uv, vec3 viewDir, float heightScale, bool clipEdges ) 
+vec2 uvPM( sampler2D heightMap, vec2 uv, vec3 viewDir, float heightScale, int t ) 
 {
 
     float minLayers = 8.0;
@@ -61,16 +42,11 @@ vec2 uvPM( sampler2D heightMap, vec2 uv, vec3 viewDir, float heightScale, bool c
 
     vec2 finalUV = currentUV;
 
-    if( clipEdges )
-    {
-        if( finalUV.x > 1.0 || finalUV.y > 1.0 || finalUV.x < 0.0 || finalUV.y < 0.0 ) discard;
-    }
-
     return finalUV;
 
 }
 
-vec2 uvPM( sampler2D heightMap, vec2 uv, vec3 viewDir, float heightScale, float minLayers, float maxLayers,  bool clipEdges ) 
+vec2 uvPM( sampler2D heightMap, vec2 uv, vec3 viewDir, float heightScale, float minLayers, float maxLayers ) 
 {
 
     float layers = mix( maxLayers, minLayers, abs( dot( vec3( 0.0, 0.0, 1.0 ), viewDir ) ) );
@@ -92,11 +68,6 @@ vec2 uvPM( sampler2D heightMap, vec2 uv, vec3 viewDir, float heightScale, float 
     }
 
     vec2 finalUV = currentUV;
-
-    if( clipEdges )
-    {
-        if( finalUV.x > 1.0 || finalUV.y > 1.0 || finalUV.x < 0.0 || finalUV.y < 0.0 ) discard;
-    }
 
     return finalUV;
 

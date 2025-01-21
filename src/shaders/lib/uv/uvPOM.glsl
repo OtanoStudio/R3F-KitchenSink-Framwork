@@ -1,6 +1,6 @@
 // Parallax Occulusion uv maping
 
-vec2 uvPOM( sampler2D heightMap, vec2 uv, vec3 viewDir, float heightScale, bool clipEdges ) 
+vec2 uvPOM( sampler2D heightMap, vec2 uv, vec3 viewDir, float heightScale ) 
 {
 
     float minLayers = 8.0;
@@ -32,16 +32,11 @@ vec2 uvPOM( sampler2D heightMap, vec2 uv, vec3 viewDir, float heightScale, bool 
 
     vec2 finalUV = prevUV * weight + currentUV * ( 1.0 - weight );
 
-    if( clipEdges )
-    {
-        if( finalUV.x > 1.0 || finalUV.y > 1.0 || finalUV.x < 0.0 || finalUV.y < 0.0 ) discard;
-    }
-
     return finalUV;
 
 }
 
-vec2 uvPOM( sampler2D heightMap, vec2 uv, vec3 viewDir, float heightScale, vec2 layersSet, bool clipEdges ) 
+vec2 uvPOM( sampler2D heightMap, vec2 uv, vec3 viewDir, float heightScale, vec2 layersSet ) 
 {
 
     float minLayers = layersSet.x;
@@ -73,16 +68,11 @@ vec2 uvPOM( sampler2D heightMap, vec2 uv, vec3 viewDir, float heightScale, vec2 
 
     vec2 finalUV = prevUV * weight + currentUV * ( 1.0 - weight );
 
-    if( clipEdges )
-    {
-        if( finalUV.x > 1.0 || finalUV.y > 1.0 || finalUV.x < 0.0 || finalUV.y < 0.0 ) discard;
-    }
-
     return finalUV;
 
 }
 
-vec2 uvPOM( sampler2D heightMap, vec2 uv, vec3 viewDir, float heightScale, float minLayers, float maxLayers, bool clipEdges ) 
+vec2 uvPOM( sampler2D heightMap, vec2 uv, vec3 viewDir, float heightScale, float minLayers, float maxLayers ) 
 {
 
     float layers = mix( maxLayers, minLayers, abs( dot( vec3( 0.0, 0.0, 1.0 ), viewDir ) ) );
@@ -110,11 +100,6 @@ vec2 uvPOM( sampler2D heightMap, vec2 uv, vec3 viewDir, float heightScale, float
     float weight = heightAfter / ( heightAfter - heightBefore );
 
     vec2 finalUV = prevUV * weight + currentUV * ( 1.0 - weight );
-
-    if( clipEdges )
-    {
-        if( finalUV.x > 1.0 || finalUV.y > 1.0 || finalUV.x < 0.0 || finalUV.y < 0.0 ) discard;
-    }
 
     return finalUV;
 
