@@ -1,4 +1,4 @@
-vec2 twirl(vec2 uv, vec2 center, float strength, vec2 offset)
+vec2 uvTwirl( vec2 uv, vec2 center, float strength, vec2 offset )
 {
     vec2 delta = uv - center;
     float angle = strength * length(delta);
@@ -7,7 +7,7 @@ vec2 twirl(vec2 uv, vec2 center, float strength, vec2 offset)
     return vec2(x + center.x + offset.x, y + center.y + offset.y);
 }
 
-vec2 twirl(vec2 uv, vec2 center, float angle, float radius) 
+vec2 uvTwirl( vec2 uv, vec2 center, float angle, float radius ) 
 {
     // Calculate the vector from the center to the current UV coordinate
     vec2 toUV = uv - center;
