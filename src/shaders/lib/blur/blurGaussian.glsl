@@ -1,7 +1,7 @@
 // requires uv to have resolution transform
 // from https://mini.gmshaders.com/p/blur-philosophy
 // all copy rights to the original author
-vec4 blurGaussian(  sampler2D image, vec2 uv ) 
+vec4 blurGaussian(  sampler2D image, vec2 uv, vec2 texel ) 
 {
 
     float w[9];
@@ -18,7 +18,7 @@ vec4 blurGaussian(  sampler2D image, vec2 uv )
    vec4 tex_sum = texture2D( image, uv ) * w[0];
     float weight_sum = w[0];
 
-    for(int x = 1; x<=8; x++)
+    for( int x = 1; x <=8; x++ )
     {
 	
 	    tex_sum += texture2D(gm_BaseTexture, v_vTexcoord + vec2(x,0) * texel) * w[x];
