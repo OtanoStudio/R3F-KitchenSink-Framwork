@@ -1,24 +1,34 @@
-vec4 blurGaussian(sampler2D tex, vec2 uv, vec2 resolution, float sigma) 
+// requires uv to have resolution transform
+// from https://mini.gmshaders.com/p/blur-philosophy
+// all copy rights to the original author
+vec4 blurGaussian(  sampler2D image, vec2 uv ) 
 {
 
-    vec4 color = vec4(0.0);
-    float weightSum = 0.0;
-    float kernel[5] = float[](0.06136, 0.24477, 0.38774, 0.24477, 0.06136);
+    float w[9];
+    w[0] = 0.080497596;
+    w[1] = 0.078903637;
+    w[2] = 0.074308647;
+    w[3] = 0.067237244;
+    w[4] = 0.058453252;
+    w[5] = 0.048824260;
+    w[6] = 0.039182387;
+    w[7] = 0.030211641;
+    w[8] = 0.022381334;
 
-    for (int i = -2; i <= 2; i++) 
+   vec4 tex_sum = texture2D( image, uv ) * w[0];
+    float weight_sum = w[0];
+
+    for(int x = 1; x<=8; x++)
     {
-
-        for (int j = -2; j <= 2; j++) 
-        {
-
-            vec2 offset = vec2(i, j) / resolution;
-            color += texture2D(tex, uv + offset) * kernel[i + 2] * kernel[j + 2];
-            weightSum += kernel[i + 2] * kernel[j + 2];
-
-        }
+	
+	    tex_sum += texture2D(gm_BaseTexture, v_vTexcoord + vec2(x,0) * texel) * w[x];
+	    tex_sum += texture2D(gm_BaseTexture, v_vTexcoord - vec2(x,0) * texel) * w[x];
+	    weight_sum += w[x]*2.0;
 
     }
 
-    return color / weightSum;
+    vec4 tex_average = tex_sum / weight_sum;
+
+    return tex_average;
     
 }
