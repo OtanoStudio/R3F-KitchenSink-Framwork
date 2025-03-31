@@ -32,7 +32,7 @@ vec3 colorHueDegrees( vec3 inputColor, float offset )
 
 }
 
-void colorHueRadians( vec3 inputColor, float offset ) 
+vec3 colorHueRadians( vec3 inputColor, float offset ) 
 {
 
     vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);

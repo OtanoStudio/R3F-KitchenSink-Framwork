@@ -1,4 +1,4 @@
-vec4 uvFauxDepth( vec2 uv, vec2 mouse, sampler2D mainImage, sampler2D depthImage );
+vec4 uvFauxDepth( vec2 uv, vec2 mouse, sampler2D mainImage, sampler2D depthImage )
 {
 
     float depth = texture( depthImage, uv ).r;
@@ -7,19 +7,19 @@ vec4 uvFauxDepth( vec2 uv, vec2 mouse, sampler2D mainImage, sampler2D depthImage
 
 }
 
-vec4 uvFauxDepth( vec2 uv, vec2 mouse, sampler2D mainImage, sampler2D depthImage, vec2 threshold, vec2 offset );
+vec4 uvFauxDepth( vec2 uv, vec2 mouse, sampler2D mainImage, sampler2D depthImage, vec2 threshold, vec2 offset )
 {
 
     float depth = texture( depthImage, uv ).r;
 
     vec2 mouseThreshold = mouse / threshold;
-    vec2 depthOffset = vec2( r ) - offset;
+    vec2 depthOffset = vec2( depth ) - offset;
 
     return texture( mainImage, uv + depthOffset * mouseThreshold );
 
 }
 
-vec4 uvFauxDepth( vec2 uv, vec2 mouse, sampler2D mainImage, sampler2D depthImage, float powIntensity );
+vec4 uvFauxDepth( vec2 uv, vec2 mouse, sampler2D mainImage, sampler2D depthImage, float powIntensity )
 {
 
     float depth = texture( depthImage, uv ).r;
@@ -30,20 +30,20 @@ vec4 uvFauxDepth( vec2 uv, vec2 mouse, sampler2D mainImage, sampler2D depthImage
 
 }
 
-vec4 uvFauxDepth( vec2 uv, vec2 mouse, sampler2D mainImage, sampler2D depthImage, vec2 threshold, vec2 offset, float powIntensity );
+vec4 uvFauxDepth( vec2 uv, vec2 mouse, sampler2D mainImage, sampler2D depthImage, vec2 threshold, vec2 offset, float powIntensity )
 {
 
     float depth = texture( depthImage, uv ).r;
     depth = pow( depth, powIntensity );
 
     vec2 mouseThreshold = mouse / threshold;
-    vec2 depthOffset = vec2( r ) - offset;
+    vec2 depthOffset = vec2( depth ) - offset;
 
     return texture( mainImage, uv + depthOffset * mouseThreshold );
 
 }
 
-vec2 uvFauxDepth( vec2 uv, vec2 mouse, sampler2D depthImage );
+vec2 uvFauxDepth( vec2 uv, vec2 mouse, sampler2D depthImage )
 {
 
     float depth = texture( depthImage, uv ).r;
@@ -52,19 +52,19 @@ vec2 uvFauxDepth( vec2 uv, vec2 mouse, sampler2D depthImage );
 
 }
 
-vec2 uvFauxDepth( vec2 uv, vec2 mouse, sampler2D depthImage, vec2 threshold, vec2 offset );
+vec2 uvFauxDepth( vec2 uv, vec2 mouse, sampler2D depthImage, vec2 threshold, vec2 offset )
 {
 
     float depth = texture( depthImage, uv ).r;
 
     vec2 mouseThreshold = mouse / threshold;
-    vec2 depthOffset = vec2( r ) - offset;
+    vec2 depthOffset = vec2( depth ) - offset;
 
     return uv + depthOffset * mouseThreshold;
 
 }
 
-vec2 uvFauxDepth( vec2 uv, vec2 mouse, sampler2D depthImage, float powIntensity );
+vec2 uvFauxDepth( vec2 uv, vec2 mouse, sampler2D depthImage, float powIntensity )
 {
 
     float depth = texture( depthImage, uv ).r;
@@ -75,14 +75,14 @@ vec2 uvFauxDepth( vec2 uv, vec2 mouse, sampler2D depthImage, float powIntensity 
 
 }
 
-vec2 uvFauxDepth( vec2 uv, vec2 mouse, sampler2D depthImage, vec2 threshold, vec2 offset, float powIntensity );
+vec2 uvFauxDepth( vec2 uv, vec2 mouse, sampler2D depthImage, vec2 threshold, vec2 offset, float powIntensity )
 {
 
     float depth = texture( depthImage, uv ).r;
     depth = pow( depth, powIntensity );
 
     vec2 mouseThreshold = mouse / threshold;
-    vec2 depthOffset = vec2( r ) - offset;
+    vec2 depthOffset = vec2( depth ) - offset;
 
     return uv + depthOffset * mouseThreshold;
 
