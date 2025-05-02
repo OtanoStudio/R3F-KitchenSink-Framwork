@@ -10,3 +10,13 @@ vec2 uvScale(vec2 uv, vec2 scaleFactor )
 	return uv;
 
 }
+
+vec2 uvScale( 
+vec2 uv, // uv coordniates
+float scaleFactor // scale amount
+)
+{
+
+	return ( scaleFactor == 0.0 ) ? uv : uv / scaleFactor;
+
+}
