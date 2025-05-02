@@ -15,3 +15,12 @@ vec4 colorGradientMap( vec4 color, sampler2D gradientMap, float intensity )
     return colorOut;
 
 }
+
+vec4 colorGradientMap( vec2 bwUV, // black and white r channel as a vec2 for uv
+    sampler2D gradientMap // color texture
+)
+{
+
+    return texture( bwUV, gradientMap );
+    
+}
