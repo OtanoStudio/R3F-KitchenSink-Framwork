@@ -7,6 +7,13 @@ vec2 uvAspect( vec2 uv, vec2 resolution )
 
 }
 
+vec2 uvAspect( vec2 uv, float scale )
+{
+
+    return (uv - 0.5 ) * scale + 0.5;
+    
+}
+
 vec2 uvAspect( vec2 resolution )
 {
 
