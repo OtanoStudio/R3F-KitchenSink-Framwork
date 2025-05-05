@@ -17,6 +17,8 @@ float scaleFactor // scale amount
 )
 {
 
-	return ( scaleFactor == 0.0 ) ? uv : uv / scaleFactor;
+	vec2 uvCentered = uv - 0.5;
+
+	return ( scaleFactor == 0.0 ) ? uv : ( uvCentered * scaleFactor ) + 0.5;
 
 }
