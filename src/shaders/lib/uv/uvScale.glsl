@@ -22,3 +22,16 @@ float scaleFactor // scale amount
 	return ( scaleFactor == 0.0 ) ? uv : ( uvCentered * scaleFactor ) + 0.5;
 
 }
+
+vec2 uvScale( 
+vec2 uv, // uv coordniates
+vec2 pos, // scale position from
+float scaleFactor // scale amount
+)
+{
+
+	vec2 uvCentered = uv - pos;
+
+	return ( scaleFactor == 0.0 ) ? uv : ( uvCentered * scaleFactor ) + pos;
+
+}
