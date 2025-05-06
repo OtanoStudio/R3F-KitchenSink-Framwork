@@ -7,8 +7,8 @@ vec3 positionToScreen(
 {
 
     vec3 NDC = position.xyz / position.w; // Normalized Device Coordinates
-    NDC.xy *= 0.5;
-    NDC.xy += 0.5;
+    NDC *= 0.5;
+    NDC += 0.5;
 
     if( z )
     {
