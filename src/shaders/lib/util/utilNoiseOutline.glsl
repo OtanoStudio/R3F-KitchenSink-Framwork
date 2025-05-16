@@ -9,10 +9,9 @@ float utilNoiseOutline(
 
 float utilNoiseOutline(
     float noise, // noise that has not had a smoothstep or step applied
-    float start, // start for the smoothstep
-    float end, // end for the smoothstep
+    float threshold, // threshold for the shaping function
     float width // width of the outline
 )
 {
-    return smoothstep( start -  width, end, noise ) - smoothstep( start + width, end, noise );
+    return smoothstep( threshold -  width, threshold, noise ) - smoothstep( threshold, threshold + width, noise );
 }
