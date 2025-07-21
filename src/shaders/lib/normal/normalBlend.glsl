@@ -92,3 +92,12 @@ vec3 normalBlend(
     return packNormal(blendedNormal);
 
 }
+// can use a noise to blend normals as a float value
+vec3 normalBlend(
+    vec3 normal1,
+    vec3 normal2,
+    float blendFactor,
+)
+{
+    return mix( normal1, normal2, blendFactor );
+}
