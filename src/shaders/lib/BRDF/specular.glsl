@@ -6,9 +6,9 @@ float specular(
 )
 {
 
-    vec3 lv = normalize( l + v );
+    vec3 lv =  l + v;
     vec3 h = lv / length( lv );
-    float ndotl = ( dot( n, l ) > 0.0 );
+    float ndotl = step( 0.0, dot( n, l ) );
     float ndoth = max( dot( n, h ), 0.0 );
 
     return pow( ndoth, p ) * ndotl;
