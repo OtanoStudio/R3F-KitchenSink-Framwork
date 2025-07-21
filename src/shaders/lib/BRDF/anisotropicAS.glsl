@@ -1,6 +1,6 @@
 // Ashikhmin-Shirley anisotropic BRDF
 
-float anistropicAS(
+float anisotropicAS(
     float rs,
     float au,
     float av,
