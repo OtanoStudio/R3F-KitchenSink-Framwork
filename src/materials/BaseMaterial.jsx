@@ -12,6 +12,10 @@ export default function BaseMaterial( {
 {
     const self = useRef()
 
+    const { sceneTexture } = props
+
+    console.log( sceneTexture )
+
     const noise = useTexture( texture )
     noise.wrapS = RepeatWrapping
     noise.wrapT = RepeatWrapping
@@ -20,6 +24,7 @@ export default function BaseMaterial( {
     {
         uTime: 0,
         uNoiseTexture: noise,
+        uDepthTexture: sceneTexture,
     }
 
     useFrame( ( state, delta ) =>

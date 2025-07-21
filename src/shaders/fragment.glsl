@@ -1,4 +1,5 @@
 uniform float uTime;
+uniform sampler2D uDepthTexture;
 
 in vec2 vUv;
 in vec3 worldPosition;
@@ -13,8 +14,9 @@ void main()
     vec2 uvWorld = worldPosition.xy;
     // uvWorld *= 0.5 + 0.5;
     float time = uTime;
+    vec4 depth = texture( uDepthTexture, uv );
 
-    gl_FragColor = vec4( uv, 0.8, 1.0 );
+    gl_FragColor = depth;
     
     #include <tonemapping_fragment>
     #include <colorspace_fragment>
