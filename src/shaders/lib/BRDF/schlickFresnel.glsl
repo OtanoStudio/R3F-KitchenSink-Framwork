@@ -19,11 +19,11 @@ float schlickFresnelSpecular(
 }
 
 float schlickFresnelFast(
-    float ndotv
+    float hdotv
 ) 
 {
 
-    float x = 1.0 - ndotv;
+    float x = 1.0 - hdotv;
     float x2 = x * x;
 
     return 0.04 + 0.96 * x2 * x2 * x;
