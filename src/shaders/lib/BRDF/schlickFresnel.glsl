@@ -9,6 +9,18 @@ float schlickFresnel(
 
 }
 
+float schlickFresnel(
+    float f0,
+    float ndotv
+) 
+{
+    
+    const float clearcoat = f0;
+
+    return clearcoat + ( 1.0 - clearcoat ) * pow( 1.0 - ndotv, 5.0 );
+
+}
+
 float schlickFresnelSpecular(
     float hdotv
 ) 
