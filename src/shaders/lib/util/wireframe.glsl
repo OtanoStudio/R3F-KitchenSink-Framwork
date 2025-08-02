@@ -1,4 +1,4 @@
-float wireFrame(
+float wireframe(
     vec3 baryCoords,
     float lineWidth
 )
