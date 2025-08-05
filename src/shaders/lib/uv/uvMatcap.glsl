@@ -17,11 +17,9 @@ vec3 viewDir, // view direction
 {
 
     vec3 r = reflect( viewDir, normal );
-    float m = 2.0 * sqrt(
-        pow( r.x, 2.0 ) +
-        pow( r.y, 2.0 ) +
-        pow( r.z + 1.0, 2.0 )
-    );
+    r.z = 1.0 - r.z;
+
+    float m = 2.0 * length( r );
 
     return r.xy / m + 0.5;
     
