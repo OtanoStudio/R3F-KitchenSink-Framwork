@@ -1,10 +1,10 @@
 import { calculateBaryCoords } from "../calculateBaryCoords.js";
 import WireframeMaterial from "../materials/meshWireframeMaterial.jsx"
-import { IcosahedronGeometry, BufferAttribute, DoubleSide  } from "three"
+import { IcosahedronGeometry } from "three"
 
 export default function Wired() 
 {
-    const geo = new IcosahedronGeometry( 1, 1 );
+    const geo = new IcosahedronGeometry( 1, 4 );
 
     calculateBaryCoords( geo );
 
