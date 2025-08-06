@@ -26,6 +26,6 @@ void main()
     normals = normal;
     normalNormals = normalMatrix * normal;
     matcapUV = uvMatcap( worldNorm.xyz, viewMatrix );
-    matcapUV2 = uvMatcap( normalize( normalMatrix * normal ), normalize( -mvPosition ) );
+    matcapUV2 = uvMatcap( normalize( normalMatrix * normal ), normalize( mvPosition ) );
     
 }

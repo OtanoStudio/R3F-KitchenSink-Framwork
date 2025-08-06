@@ -7,7 +7,7 @@ import { RepeatWrapping, Vector2, Color } from 'three'
 
 export default function MatcapMeshMaterial( {
     texture ='./textures/noise/noiseVoronoi.png',
-    textureMatcap = './textures/matcaps/7.jpg',
+    textureMatcap = './textures/matcaps/4.jpg',
     isVersion2 = false,
     ...props
 } ) 

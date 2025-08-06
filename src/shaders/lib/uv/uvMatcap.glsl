@@ -1,3 +1,4 @@
+// version for flat stylized surfaces
 vec2 uvMatcap( 
 vec3 normal, // normal in world space
 mat4 viewMat // view matrix
@@ -9,7 +10,7 @@ mat4 viewMat // view matrix
     return v.xy * 0.5 + 0.5;
     
 }
-
+// version for rounded surfaces
 vec2 uvMatcap( 
 vec3 normal, // normal in world space
 vec3 viewDir // view direction
