@@ -12,7 +12,7 @@ mat4 viewMat // view matrix
 
 vec2 uvMatcap( 
 vec3 normal, // normal in world space
-vec3 viewDir, // view direction
+vec3 viewDir // view direction
 )
 {
 
