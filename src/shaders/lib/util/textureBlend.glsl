@@ -1,3 +1,10 @@
+/*
+* Original author and code
+* https://godotshaders.com/shader/seamless-texture-sampler-without-repeating-patterns-tiling/
+* Author: hungryproton
+* Profile: https://godotshaders.com/author/hungryproton/
+*/
+
 vec3 textureBlend(
     sampler2D tex, 
     sampler2D noise, 
@@ -21,7 +28,7 @@ vec3 textureBlend(
     
     vec3 cola = texture2D(tex, uv + v * offa).xyz;
     vec3 colb = texture2D(tex, uv + v * offb).xyz;
-    
+
     vec3 ab = cola - colb;
     float sum_ab = ab.x + ab.y + ab.z;
     
