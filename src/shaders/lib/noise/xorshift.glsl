@@ -1,4 +1,4 @@
-float xorshift( uint seed ) 
+float xorshift( inout uint seed ) 
 {
     seed ^= seed << 13u;
     seed ^= seed >> 17u;
@@ -8,7 +8,7 @@ float xorshift( uint seed )
 
 }
 
-float xorshift128( uvec4 state ) 
+float xorshift128( inout uvec4 state ) 
 {
     uint t = state.w;
     uint s = state.x;
