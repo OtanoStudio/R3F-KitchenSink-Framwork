@@ -72,3 +72,14 @@ vec2 uvPM( sampler2D heightMap, vec2 uv, vec3 viewDir, float heightScale, float 
     return finalUV;
 
 }
+
+vec4 uvPM( sampler2D DepthTexture, vec2 uv, vec3 TangentViewDirection, float depthOffset )
+{
+
+    float depth = texture( DepthTexture, uv ).r;
+    vec2 parallaxOffset = depth * TangentViewDirection.xy;
+    parallaxOffset = parallaxOffset * -1.0 * depthOffset;
+
+    color = texture( DepthTexture, uv + parallaxOffset );
+
+}
