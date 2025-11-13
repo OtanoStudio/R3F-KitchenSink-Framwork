@@ -1,8 +1,5 @@
 
-import { useRef } from "react"
-import BasePlane from "./components/BasePlane"
-import Wired from "./components/Wired"
-import { Sphere } from "./components/Sphere.jsx"
+import TransLucentBox from "./components/TranslucentBox"
 
 
 export default function Experience()
@@ -11,7 +8,7 @@ export default function Experience()
 
     return(
         <group>
-            <Sphere />
+            <TransLucentBox />
         </group>
     )
     

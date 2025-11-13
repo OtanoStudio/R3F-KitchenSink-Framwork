@@ -23,13 +23,13 @@ vec3 translucent(
     float lightPow,
     float lightScale,
     float lightAmbient,
-    float lightThickness,
+    float lightThickness
 
 )
 {
 
     vec3 distortedLight = normalize( light + normal * lightDistortion );
-    float atten = attenuation( view, light, normal );
+    float atten = attenuation( view, light, normal, true );
     float lightFactor = pow( clamp( dot( view, -distortedLight ), 0.0, 1.0 ), lightPow ) * lightScale;
     vec3 lightTranslucency = vec3( atten * ( lightFactor + lightAmbient )* lightThickness);
 
