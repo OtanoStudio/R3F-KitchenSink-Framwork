@@ -77,3 +77,21 @@ vec2 uvParallax(
     return rtn + offset;
 
 }
+
+vec2 uvParallax(
+sampler2D depthTexture,
+vec2 uv,
+vec3 viewTangent,
+float depth
+
+)
+{
+    float parallaxOffset = texture( depthTexture, uv ).r;
+
+    vec2 parallaxUV = parallaxOffset * viewTangent.xy;
+
+    parallaxUV *= -1.0 * depth;
+
+    return uv + parallaxUV;
+
+}
