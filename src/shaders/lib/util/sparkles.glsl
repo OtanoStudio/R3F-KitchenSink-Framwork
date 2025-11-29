@@ -1,6 +1,21 @@
 float sparkles(
      sampler2D noise,
      vec3 view,
+     vec2 uv,
+     float offset
+)
+{
+
+    vec3 rng = texture( noise, uv ).rgb - 0.5;
+    rng = normalize( rng ); 
+
+    return pow( clamp( dot( -view, normalize( rng ) ), 0.0, 1.0 ), offset );
+
+}
+
+float sparkles(
+     sampler2D noise,
+     vec3 view,
      vec3 normal,
      vec2 uv,
      float offset
@@ -10,14 +25,37 @@ float sparkles(
     vec3 rng = texture( noise, uv ).rgb - 0.5;
     rng = normalize( rng ); 
 
-    return pow( dot( -view, normalize( rng ) ), offset );
+    return pow(  clamp( dot( -view, normalize( rng + normal ) ), 0.0, 1.0 ), offset );
 
 }
 
-float sparkles(
+float sparkles2(
      sampler2D noise,
      vec3 view,
      vec3 normal,
+     vec3 light,
+     vec2 uv,
+     float threshold
+)
+{
+
+    vec3 rng = texture( noise, uv ).rgb * 2.0 - 1.0;
+    rng += normal;
+    rng = normalize( rng );
+
+    vec3 R = reflect( light, rng );
+
+    float sparkleFactor = max( 0.0, dot( R, view ) );
+
+    if( sparkleFactor > threshold ) return 0.0;
+
+    return 1.0 - sparkleFactor;
+
+}
+
+float sparkles2(
+     sampler2D noise,
+     vec3 view,
      vec3 light,
      vec2 uv,
      float threshold

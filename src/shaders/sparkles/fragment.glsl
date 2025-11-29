@@ -16,7 +16,7 @@ void main()
     // uvWorld *= 0.5 + 0.5;
     float time = uTime;
 
-    float sparkle = sparkles( uNoiseTexture, viewDirection, worldNormal, uv * 10.0, 5.0 );
+    float sparkle = sparkles( uNoiseTexture, viewDirection, worldNormal, uv * 5.0, 2.0 );
 
     vec3 colorBase = vec3(0.396, 0.302, 0.510);
     vec3 colorSparkles = vec3(0.863, 0.776, 0.969);
