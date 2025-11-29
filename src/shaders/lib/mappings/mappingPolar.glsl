@@ -6,6 +6,17 @@ vec3 cartesianToSpherical(vec3 p)
     return vec3(r, theta, phi);
 }
 
+vec2 mappingPolar( vec2 uv )
+{
+
+    float PI2 = 6.28318530718;
+    float dist = length( uv );
+    float angle = atan( uv.y, uv.x );
+
+    return vec2( angle / PI2, dist );
+    
+}
+
 
 vec2 mappingPolar(vec3 position, float textureScale ) 
 {
