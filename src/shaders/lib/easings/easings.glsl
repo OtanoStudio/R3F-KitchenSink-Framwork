@@ -186,3 +186,166 @@ float easeInOutBounce(float t) {
         ? (1.0 - easeOutBounce(1.0 - 2.0 * t)) * 0.5
         : (1.0 + easeOutBounce(2.0 * t - 1.0)) * 0.5;
 }
+
+float easing( float t, int family, int variation )
+{
+    float rtn = t;
+
+    if( family == 1 )
+    {
+        // linear has one function return
+        rtn = easeLinear( t );
+    }
+    if( family == 2 )
+    {
+        // back
+        switch( variation )
+        {
+            case 1:
+                rtn = easeInBack( t );
+            break;
+            case 2:
+                rtn = easeOutBack( t );
+            break;
+            case 3:
+                rtn = easeInOutBack( t );
+        }
+    }
+    if( family == 3 )
+    {
+        // quad
+        switch( variation )
+        {
+            case 1:
+                rtn = easeInQuad( t );
+            break;
+            case 2:
+                rtn = easeOutQuad( t );
+            break;
+            case 3:
+                rtn = easeInOutQuad( t );
+        }
+    }
+    if( family == 4 )
+    {
+        // cubic
+        switch( variation )
+        {
+            case 1:
+                rtn = easeInCubic( t );
+            break;
+            case 2:
+                rtn = easeOutCubic( t );
+            break;
+            case 3:
+                rtn = easeInOutCubic( t );
+        }
+    }
+    if( family == 5 )
+    {
+        // quart
+        switch( variation )
+        {
+            case 1:
+                rtn = easeInQuart( t );
+            break;
+            case 2:
+                rtn = easeOutQuart( t );
+            break;
+            case 3:
+                rtn = easeInOutQuart( t );
+        }
+    }
+    if( family == 6 )
+    {
+        // quint
+        switch( variation )
+        {
+            case 1:
+                rtn = easeInQuint( t );
+            break;
+            case 2:
+                rtn = easeOutQuint( t );
+            break;
+            case 3:
+                rtn = easeInOutQuint( t );
+        }
+    }
+    if( family == 7 )
+    {
+        // sine
+        switch( variation )
+        {
+            case 1:
+                rtn = easeInSine( t );
+            break;
+            case 2:
+                rtn = easeOutSine( t );
+            break;
+            case 3:
+                rtn = easeInOutSine( t );
+        }
+    }
+    if( family == 8 )
+    {
+        // expo
+        switch( variation )
+        {
+            case 1:
+                rtn = easeInExpo( t );
+            break;
+            case 2:
+                rtn = easeOutExpo( t );
+            break;
+            case 3:
+                rtn = easeInOutExpo( t );
+        }
+    }
+    if( family == 9 )
+    {
+        // circ
+        switch( variation )
+        {
+            case 1:
+                rtn = easeInCirc( t );
+            break;
+            case 2:
+                rtn = easeOutCirc( t );
+            break;
+            case 3:
+                rtn = easeInOutCirc( t );
+        }
+    }
+    if( family == 10 )
+    {
+        // elastic
+        switch( variation )
+        {
+            case 1:
+                rtn = easeInElastic( t );
+            break;
+            case 2:
+                rtn = easeOutElastic( t );
+            break;
+            case 3:
+                rtn = easeInOutElastic( t );
+        }
+    }
+    if( family == 11 )
+    {
+        // bounce
+        switch( variation )
+        {
+            case 1:
+                rtn = easeInBounce( t );
+            break;
+            case 2:
+                rtn = easeOutBounce( t );
+            break;
+            case 3:
+                rtn = easeInOutBounce( t );
+        }
+    }
+
+    return rtn;
+}

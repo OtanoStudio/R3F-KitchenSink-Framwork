@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { Canvas } from '@react-three/fiber'
 import Experience from './Experience.jsx'
 import { OrbitControls } from '@react-three/drei'
+import { Bloom, EffectComposer } from '@react-three/postprocessing'
 
 
 
@@ -32,7 +33,9 @@ root.render(
         <fog attach="fog" args={['#141414', 5, 20]} />
         
         <Experience />
-
+        <EffectComposer>
+            <Bloom luminanceThreshold={0} luminanceSmoothing={0.9} mipmapBlur />
+        </EffectComposer>
     </Canvas>
     </div>
 )

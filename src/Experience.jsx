@@ -1,5 +1,5 @@
 
-import TransLucentBox from "./components/TranslucentBox"
+import { DigitizePlane } from "./components/DigitizePlane"
 
 
 export default function Experience()
@@ -8,7 +8,7 @@ export default function Experience()
 
     return(
         <group>
-            <TransLucentBox />
+            <DigitizePlane />
         </group>
     )
     
