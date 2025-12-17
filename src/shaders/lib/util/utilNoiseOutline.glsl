@@ -33,7 +33,7 @@ float utilNoiseOutline(
 )
 {
     
-    float edge = abs( direction - progress );
+    float edge = max( progress - direction, 0.0 );
 
     cut = 1.0 - smoothstep( 0.0, thickness, edge );
     cut *= step( direction, progress );

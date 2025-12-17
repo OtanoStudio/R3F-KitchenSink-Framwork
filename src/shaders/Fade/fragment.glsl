@@ -23,12 +23,12 @@ void main()
     float direction = uv.y;
     float imgBlk = texture( uTexture, uv ).r;
 
-    float progress = easing( time * 0.3, 9, 2 );
-    float noiseSquares = step( 0.7, noiseRandom( floor( ( uv + vec2( time * 0.06, 1.0 ) ) * 20.0  ) * 0.5 ) );
+    float progress = easing( time * 0.225, 2, 2 );
+    float noiseSquares = step( 0.7, noiseRandom( floor( uv * 20.0  ) * 0.5 ) );
 
     // cut line
     float edgeThickness = 0.09;
-    float edgeDistance = abs( direction - progress );
+    float edgeDistance = max( progress - direction, 0.0 );
 
     float cut = 1.0 - smoothstep( 0.0, edgeThickness, edgeDistance );
     cut *= step( direction, progress );
@@ -39,8 +39,10 @@ void main()
 
     if( direction > progress ) discard;
 
+
+
     vec3 colorNoise = vec3(0.0, 0.68, 1.0) * cut;
-    vec3 colorFinal = vec3( imgBlk );
+    vec3 colorFinal = uColor * imgBlk;
 
     colorFinal = mix( colorFinal, colorNoise, cut );
 
