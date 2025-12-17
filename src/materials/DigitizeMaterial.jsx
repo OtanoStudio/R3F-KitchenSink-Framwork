@@ -22,9 +22,9 @@ export function DigitizeMaterial(
 
     const self = useRef();
 
-    color1 = ( color1 instanceof Color ) ? color1  : new Color( "#9ffcff" );
-    color2 = ( color2 instanceof Color ) ? color2  : new Color( "#ffffff" );
-    color3 = ( color3 instanceof Color ) ? color3  : new Color( "#5fdcff" );
+    color1 = new Color( color1 );
+    color2 = new Color( color2 );
+    color3 = new Color( color3 );
 
     colorIntensity = ( colorIntensity instanceof Vector3 ) ? colorIntensity : new Vector3( 1, 1, 1 );
 

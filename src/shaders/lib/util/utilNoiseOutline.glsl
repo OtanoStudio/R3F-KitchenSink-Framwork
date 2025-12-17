@@ -24,3 +24,21 @@ float utilNoiseOutline(
     return rtn;
 
 }
+
+float utilNoiseOutline(
+    float direction,
+    float progress,
+    float thickness,
+    float noise
+)
+{
+    
+    float edge = abs( direction - progress );
+
+    cut = 1.0 - smoothstep( 0.0, thickness, edge );
+    cut *= step( direction, progress );
+    cut *= noise;
+
+    return cut;
+
+}
