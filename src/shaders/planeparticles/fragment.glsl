@@ -7,6 +7,9 @@ uniform vec3 uColor3;
 uniform vec3 uSizes;
 uniform vec3 uDensity;
 uniform vec3 uLifetime;
+uniform sampler2D uNoiseTex;
+uniform float uReveal;
+uniform float uPhase;
 
 varying vec2 vUv;
 
@@ -118,14 +121,22 @@ void main()
 
     vec2 uv = vUv;
 
-    float m1 = squareLayer(uv,12.0,uLifetime.r,1.0,false,uSizes.r,uDensity.r, 7, 3 );
-    float m2 = squareLayer(uv,18.0,uLifetime.g,1.2,true,uSizes.g,uDensity.g, 11, 3 );
+    float m1 = squareLayer(uv,12.0,uLifetime.r,1.0,false,uSizes.r,uDensity.r, 7, 3 ); 
+    float m2 = squareLayer(uv,18.0,uLifetime.g,1.2,true,uSizes.g,uDensity.g, 11, 3 ); 
     float m3 = squareLayer(uv,24.0,uLifetime.b,1.5,false,uSizes.b,uDensity.b, 9, 3);
 
-    vec3 col = uColor1*m1 + uColor2*m2 + uColor3*m3;
+    vec3 col = uColor1 * m1 + uColor2 * m2 + uColor3 * m3;
     float alpha = m1 + m2 + m3;
 
-    gl_FragColor = vec4(col,alpha);
+    vec2 uvGrid = floor( uv * 15.0 ) / 15.0;
+    vec2 uvFracGrid = fract( uv * 15.0 );
+
+    float testNoise = texture( uNoiseTex, uvGrid ).r;
+
+    testNoise = 1.0 - step( 0.3, testNoise );
+
+    gl_FragColor = vec4(col, alpha);
+    gl_FragColor = vec4( vec3( testNoise ), 1.0 );
 
     #include <tonemapping_fragment>
     #include <colorspace_fragment>

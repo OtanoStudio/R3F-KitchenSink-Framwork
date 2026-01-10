@@ -1,4 +1,6 @@
 import { FadeMaterial } from "../materials/FadeMaterial"
+import gsap from "gsap"
+import { useEffect, useRef } from "react"
 
 export default function ODSLogo(
     {
@@ -8,6 +10,7 @@ export default function ODSLogo(
     }
 ) 
 {
+
   return (
     <mesh
         { ...props }

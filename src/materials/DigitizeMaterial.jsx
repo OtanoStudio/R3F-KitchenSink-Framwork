@@ -1,9 +1,11 @@
-import { shaderMaterial } from "@react-three/drei";
+import { shaderMaterial, useTexture } from "@react-three/drei";
 import { extend, useFrame } from "@react-three/fiber";
 import { useRef } from "react";
-import { AdditiveBlending, Color, Vector3 } from "three";
+import { AdditiveBlending, Color, RepeatWrapping, Vector3 } from "three";
 import vertex from '../shaders/planeparticles/vertex.glsl';
 import fragment from '../shaders/planeparticles/fragment.glsl';
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 
 
 export function DigitizeMaterial(
@@ -15,16 +17,22 @@ export function DigitizeMaterial(
         digaDensity = new Vector3( 0.6, 0.3, 0.1 ),
         digaLifetime = new Vector3( 2.5, 2.5, 2.1 ),
         colorIntensity = new Vector3( 1, 1, 1 ),
+        noiseTexture = './textures/noise/noiseValue.webp',
         ...props
     }
 ) 
 {
 
     const self = useRef();
+    gsap.registerPlugin(useGSAP);
 
     color1 = new Color( color1 );
     color2 = new Color( color2 );
     color3 = new Color( color3 );
+
+    const textureNoise = useTexture( noiseTexture );
+    textureNoise.wrapS = RepeatWrapping;
+    textureNoise.wrapT = RepeatWrapping;
 
     colorIntensity = ( colorIntensity instanceof Vector3 ) ? colorIntensity : new Vector3( 1, 1, 1 );
 
@@ -36,6 +44,8 @@ export function DigitizeMaterial(
     digaLifetime = ( digaLifetime instanceof Vector3 ) ? digaLifetime : new Vector3( 2.5, 2.5, 2.1 );
     digaSize = ( digaSize instanceof Vector3 ) ? digaSize : new Vector3( 0.8, 0.6, 0.35 );
 
+    console.log( digaDensity );
+
     const uniforms =
     {
         uColor1: color1,
@@ -45,7 +55,26 @@ export function DigitizeMaterial(
         uDensity: digaDensity,
         uLifetime: digaLifetime,
         uTime: 0,
+        uNoiseTex: textureNoise,
+        uReveal: 0,
+        uPhase: 0,
     }
+
+    useGSAP( () =>
+    {
+        gsap.to( self.current.uniforms.uReveal,
+        {
+            value: 1,
+            duration: 2,
+            ease: 'back.inOut'
+        })
+        gsap.to( self.current.uniforms.uPhase,
+        {
+            value: 1,
+            duration: 2,
+            ease: 'back.inOut'
+        })
+    })
 
     useFrame(( state, delta ) =>
     {

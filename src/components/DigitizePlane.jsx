@@ -19,6 +19,7 @@ export function DigitizePlane( {
             <planeGeometry args={ [ size,size ] } />
             <DigitizeMaterial
                 colorIntensity={ new Vector3( 2, 1, 4 )}
+                digaDensity={ new Vector3( 0.1, 0.075, 0.025 ) }
             />
         </mesh>
     )
