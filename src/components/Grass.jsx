@@ -1,18 +1,20 @@
-import { DoubleSide, MultiplyBlending } from "three";
+import { AdditiveBlending, DoubleSide, MultiplyBlending } from "three";
 import GrassMaterial from "../materials/GrassMaterial";
 
-export default function Grass() 
+export default function Grass( props ) 
 {
     return (
-        <mesh>
+        <mesh { ...props }>
             <planeGeometry
                 args={ [ 1.3, 1.5, 1, 5 ] }
             />
             <GrassMaterial
             
             transparent={ true }
-            side={ DoubleSide }
             blend={ MultiplyBlending }
+            depthTest={ false }
+            depthWrite={ false }
+            toneMapped={ false }
             />
         </mesh>
     )

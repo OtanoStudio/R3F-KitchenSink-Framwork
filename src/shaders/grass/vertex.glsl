@@ -3,6 +3,7 @@
 
 uniform sampler2D uNoiseTexture;
 uniform float uTime;
+uniform float uPhase;
 
 varying vec2 vUv;
 
@@ -12,8 +13,11 @@ void main()
     
 
     vec4 worldPosition = modelMatrix * vec4( position, 1.0 );
-    float time = uTime * 0.5;
-    float phase = randomFloat( 1, 1 ); // use instance ID as index
+    float time = sin( ( uTime * 0.5 ) * 0.3 );
+    vec2 phase = vec2(
+        sin( uPhase ),
+        cos( uPhase )
+    );
 
     vUv = uv;
 
@@ -27,7 +31,7 @@ void main()
         uv,
         vec2( 0.5, 1.5 ),
         phase,
-        vec3( 2.3, 1.7, 0.3 )
+        vec3( 2.3, 1.7, 0.2 )
         
     );
 

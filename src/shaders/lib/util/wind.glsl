@@ -39,7 +39,7 @@ vec3 wind(
     float windStrength, // final multiplier
     vec2 uv, // texture coordinates
     vec2 windOffset, // offset of the wind effect x overall multiplier y stiffness power
-    float phase // phase transition
+    vec2 phase // phase transition
 )
 {
 
@@ -118,7 +118,7 @@ vec3 wind(
     float windStrength, // overall strength
     vec2 uv, // texture coordinates
     vec2 windOffset, // offset of the wind effect
-    float phase, // phase offset to break up uniformity
+    vec2 phase, // phase offset to break up uniformity
     vec3 gustOffset // gust offset for texture sampling x and  with z being the blend factor
 
 )

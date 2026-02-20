@@ -17,7 +17,7 @@ root.render(
             fov: 45,
             near: 1,
             far: 100,
-            position: [ 0, 0, 10 ]
+            position: [ 0, 0, 6 ]
         } }
 
         gl={{

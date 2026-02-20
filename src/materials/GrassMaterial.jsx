@@ -3,13 +3,14 @@ import { extend, useFrame } from '@react-three/fiber'
 import { useRef } from 'react'
 import vertex from '../shaders/grass/vertex.glsl'
 import fragment from '../shaders/grass/fragment.glsl'
-import { RepeatWrapping, Vector2, Color, Vector3 } from 'three'
+import { RepeatWrapping, Vector2, Color, Vector3, SRGBColorSpace } from 'three'
 
 export default function GrassMaterial( {
     texture ='./textures/noise/noisePerlin.webp',
     grassTexture ='./textures/tiles/grass/grass3.webp',
-    colorTip = '#A1D88D',
-    colorBase = '#136d15',
+    colorTip = '#9ae37d',
+    colorBase = '#154406',
+    grassColorMap = './textures/gradientmaps/grassblu.webp',
     ...props
 } ) 
 {
@@ -21,6 +22,11 @@ export default function GrassMaterial( {
 
     const textureGrass = useTexture( grassTexture )
 
+    const phaseOffset = Math.random() * Math.PI * 2
+
+    const colorMap = useTexture( grassColorMap )
+    colorMap.colorSpace = SRGBColorSpace
+
     const uniforms =
     {
 
@@ -28,7 +34,9 @@ export default function GrassMaterial( {
         uNoiseTexture: noise,
         uGrassTexture: textureGrass,
         uTipColor: new Color( colorTip ),
-        uBaseColor: new Color( colorBase )
+        uBaseColor: new Color( colorBase ),
+        uPhase: phaseOffset,
+        uColorMap: colorMap,
 
     }
 
