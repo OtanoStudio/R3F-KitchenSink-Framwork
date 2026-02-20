@@ -6,7 +6,7 @@ import fragment from '../shaders/grass/fragment.glsl'
 import { RepeatWrapping, Vector2, Color, Vector3, SRGBColorSpace } from 'three'
 
 export default function GrassMaterial( {
-    texture ='./textures/noise/noisePerlin.webp',
+    texture ='./textures/noise/noiseValue_albedo60.webp',
     grassTexture ='./textures/tiles/grass/grass3.webp',
     colorTip = '#9ae37d',
     colorBase = '#154406',

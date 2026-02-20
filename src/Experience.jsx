@@ -11,6 +11,7 @@ export default function Experience()
 
 
     return(
+
         <group
             position={[-0.8,0,0]}
         >
@@ -70,6 +71,7 @@ export default function Experience()
                 position={[ 1.4, 0, 0.7]}
             />
         </group>
+    
     )
     
 }
