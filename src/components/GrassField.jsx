@@ -3,20 +3,12 @@ import { Object3D, InstancedBufferAttribute, MathUtils } from "three"
 import GrassMaterial from "../materials/GrassMaterial.jsx"
 
 export default function GrassField({
-  count = 250,
-  area = 5
+  count = 3000,
+  area = 10
 }) {
   const meshRef = useRef()
   const dummy = useMemo(() => new Object3D(), [])
-
-  // Per-instance wind phase
-  const phases = useMemo(() => {
-    const arr = new Float32Array(count)
-    for (let i = 0; i < count; i++) {
-      arr[i] = Math.random() * Math.PI * 2
-    }
-    return arr
-  }, [count])
+  
 
   useEffect(() => {
     if (!meshRef.current) return
@@ -40,16 +32,12 @@ export default function GrassField({
 
     meshRef.current.instanceMatrix.needsUpdate = true
 
-    meshRef.current.geometry.setAttribute(
-      "instancePhase",
-      new InstancedBufferAttribute(phases, 1)
-    )
 
-  }, [count, area, phases, dummy])
+  }, [count, area, dummy])
 
   return (
     <instancedMesh ref={meshRef} args={[undefined, undefined, count]}>
-      <planeGeometry args={[1.3, 1.5, 1, 5]} />
+      <planeGeometry args={[1, 1, 1, 3]} />
       <GrassMaterial />
     </instancedMesh>
   )

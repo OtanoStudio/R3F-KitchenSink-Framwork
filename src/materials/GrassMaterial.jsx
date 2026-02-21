@@ -93,7 +93,7 @@ extend({ GrassMaterialImpl })
 /* ---------- COMPONENT ---------- */
 
 export default function GrassMaterial({
-  texture = "./textures/noise/noiseValue_albedo60.webp",
+  texture = "./textures/noise/noiseFBM.webp",
   grassTexture = "./textures/tiles/grass/grass3.webp",
   grassColorMap = "./textures/gradientmaps/grasssunset.webp",
   ...props
@@ -123,7 +123,6 @@ export default function GrassMaterial({
     <grassMaterialImpl
       ref={materialRef}
       alphaTest={ 0.1 }
-      side={ DoubleSide }
       {...props}
     />
   )
