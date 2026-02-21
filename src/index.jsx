@@ -17,7 +17,7 @@ root.render(
             fov: 45,
             near: 1,
             far: 100,
-            position: [ 0, 0, 6 ]
+            position: [ 0, 3, 14 ]
         } }
 
         gl={{
@@ -25,17 +25,11 @@ root.render(
             alpha: true,
         }}
     >   
-
         <OrbitControls makeDefault />
-
-        <ambientLight intensity={ 0.8 } color='#ffffff' />
-
-        <fog attach="fog" args={['#141414', 5, 20]} />
-        
         <Experience />
-        <EffectComposer>
+        {/* <EffectComposer>
             <Bloom luminanceThreshold={0} luminanceSmoothing={0.9} mipmapBlur />
-        </EffectComposer>
+        </EffectComposer> */}
     </Canvas>
     </div>
 )

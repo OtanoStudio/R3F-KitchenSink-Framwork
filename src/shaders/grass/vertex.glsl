@@ -1,11 +1,12 @@
-#include '../lib/util/wind.glsl'
-#include '../lib/util/randomFloat.glsl'
+attribute float instancePhase;
 
 uniform sampler2D uNoiseTexture;
 uniform float uTime;
-uniform float uPhase;
 
 varying vec2 vUv;
+
+#include '../lib/util/wind.glsl'
+#include '../lib/util/randomFloat.glsl'
 
 void main()
 {
@@ -19,8 +20,8 @@ void main()
     float windStrengthPulse = mix( pulse, gust, 0.4 );
 
     vec2 phase = vec2(
-        sin( uPhase ),
-        cos( uPhase )
+        sin( instancePhase ),
+        cos( instancePhase )
     );
 
     vUv = uv;
@@ -30,17 +31,17 @@ void main()
         vec2( worldPosition.xz ),
         vec3( 0.02, 0.02, 0.3 ),
         time,
-        vec2( 0.4, 0.707 ),
+        vec2( 0.7, 0.8 ),
         windStrengthPulse,
         uv,
-        vec2( 0.25, 2.0 ),
+        vec2( 0.32, 1.5 ),
         phase,
         vec3( 2.23, 1.7, 0.3 )
     );
 
     vec3 positionFinal = position + windPosition;
 
-    gl_Position = projectionMatrix * modelViewMatrix * vec4( positionFinal, 1.0 );
+    gl_Position = projectionMatrix * modelViewMatrix * vec4( instanceMatrix * vec4( positionFinal, 1.0 ) );
 
 
 
