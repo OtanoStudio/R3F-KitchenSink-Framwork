@@ -122,10 +122,7 @@ export default function GrassMaterial({
   return (
     <grassMaterialImpl
       ref={materialRef}
-      transparent
-      depthTest={ false }
-      depthWrite={ false }
-      blend={ MultiplyBlending }
+      alphaTest={ 0.1 }
       side={ DoubleSide }
       {...props}
     />

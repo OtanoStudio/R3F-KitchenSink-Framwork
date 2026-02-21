@@ -34,14 +34,13 @@ void main()
         vec2( 0.7, 0.8 ),
         windStrengthPulse,
         uv,
-        vec2( 0.32, 1.5 ),
-        phase,
-        vec3( 2.23, 1.7, 0.3 )
+        vec2( 0.32, 0.25 ),
+        vec3( 3.0, 2.0, 0.62 )
     );
 
     vec3 positionFinal = position + windPosition;
 
-    gl_Position = projectionMatrix * modelViewMatrix * vec4( instanceMatrix * vec4( positionFinal, 1.0 ) );
+    gl_Position = projectionMatrix * modelViewMatrix * instanceMatrix * vec4( positionFinal, 1.0 );
 
 
 
