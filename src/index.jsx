@@ -26,7 +26,7 @@ root.render(
             alpha: true,
         }}
     >   
-        <Perf />
+        {/* <Perf /> */}
         <Experience />
         {/* <EffectComposer>
             <Bloom luminanceThreshold={0} luminanceSmoothing={0.9} mipmapBlur />
