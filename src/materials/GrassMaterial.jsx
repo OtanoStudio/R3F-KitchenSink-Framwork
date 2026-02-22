@@ -93,7 +93,7 @@ extend({ GrassMaterialImpl })
 /* ---------- COMPONENT ---------- */
 
 export default function GrassMaterial({
-  texture = "./textures/noise/noiseFBM.webp",
+  texture = "./textures/noise/noiseWind.webp",
   grassTexture = "./textures/tiles/grass/grass3.webp",
   grassColorMap = "./textures/gradientmaps/grasssunset.webp",
   ...props
@@ -101,14 +101,13 @@ export default function GrassMaterial({
   const materialRef = useRef()
 
   const noise = useTexture(texture)
+  noise.wrapS = noise.wrapT = RepeatWrapping
   const grass = useTexture(grassTexture)
   const colorMap = useTexture(grassColorMap)
   colorMap.colorSpace = SRGBColorSpace
 
   useEffect(() => {
-    noise.wrapS = noise.wrapT = RepeatWrapping
     
-
     materialRef.current.uNoiseTexture = noise
     materialRef.current.uGrassTexture = grass
     materialRef.current.uColorMap = colorMap

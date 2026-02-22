@@ -16,11 +16,11 @@ export default function useMouse()
 
     useEffect( () =>
     {
-        window.addEventListener( 'mousemove', updateMousePosition )
+        window.addEventListener( 'pointermove', updateMousePosition )
 
         return () =>
         {
-            window.removeEventListener( 'mousemove', updateMousePosition )
+            window.removeEventListener( 'pointermove', updateMousePosition )
         }
 
     },[] )

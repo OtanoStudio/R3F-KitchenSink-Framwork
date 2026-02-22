@@ -33,12 +33,12 @@ gustPulse = pow(gustPulse, 4.0);
     vec3 windPosition = wind(
         uNoiseTexture,
         vec2( worldPosition.xz * 0.1 ),
-        vec3( 1.0, 1.0, 0.25 ),
+        vec3( 1.0, 1.0, 0.4 ),
         time,
-        vec2( 0.6, 0.2 ),
-        windStrengthPulse,
+        vec2( 0.6, 0.3 ),
+        0.6,
         uv,
-        vec2( 1.0, 2.2 ),
+        vec2( 0.25, 2.2 ),
         phase,
         vec3( 0.4, 0.6, gustPulse )
     );
