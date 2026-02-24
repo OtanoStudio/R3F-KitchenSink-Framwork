@@ -1,6 +1,7 @@
 import './style.css'
 import ReactDOM from 'react-dom/client'
 import { Canvas } from '@react-three/fiber'
+import GrassUI from './components/GrassUI.jsx'
 import Experience from './Experience.jsx'
 import { OrbitControls } from '@react-three/drei'
 import { Bloom, EffectComposer } from '@react-three/postprocessing'
@@ -12,7 +13,7 @@ const root = ReactDOM.createRoot(document.querySelector('#root'))
 
 root.render(
     <div className='webgl-container'>
-
+        <GrassUI />
     <Canvas
         camera={ {
             fov: 45,

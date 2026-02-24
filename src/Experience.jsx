@@ -29,8 +29,6 @@ export default function Experience()
         fontSize = 0.73
     }
 
-    console.log( fontSize )
-
     gsap.to( scene.rotation,{
             y: gsap.utils.mapRange( 0, window.innerWidth, 0.05, -0.05, x ),
             x: gsap.utils.mapRange( 0, window.innerHeight, 0.05, -0.05, y)
@@ -45,17 +43,7 @@ export default function Experience()
             <ODSLogo position={ [ 0, 0, -0.03 ] } />
             <DigitizePlane position={[ 0, 0, -0.08 ]} digaDensity={ new Vector3( 0.1, 0.05, 0.025 )} /> */}
             {/* <DigitalTrianglePortal /> */}
-            <Text 
-                position-y={1.3} 
-                fontSize={ fontSize } 
-                fillOpacity={0.8} 
-                characters="GRAS" 
-                font="./fonts/Betatron-Regular.otf"
-                anchorX="center"
-                anchorY="middle"
-            >
-                GRASS
-            </Text>
+            
             <GrassField />
             <mesh 
                 rotation-x={ -90 * Math.PI / 180 }

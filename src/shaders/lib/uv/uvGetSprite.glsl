@@ -1,4 +1,4 @@
-include ./noise/noiseHash11.glsl
+#include '../noise/noiseHash11.glsl'
 
 // select sprite based on index x supply just the atlas size x
 
@@ -16,15 +16,22 @@ float atlasSize
 }
 // selects a random sprite, returns the uv for selection
 vec2 uvGetRandomSprite(
-    float seed,
-    vec2 atlasSize
+    vec2 uv,
+    int index,
+    ivec2 size
 )
 {
 
-    float count = atlasSize.x * atlasSize.y;
+    int count = size.x * size.y;
+    int i = index % count;
 
-    float index = floor( noiseHash11( seed ) * count );
+    float x = float( i % size.x );
+    float y = float( i / size.y );
 
-    return uvGetSprite( index, atlasSize );
+    vec2 atlasSize = 1.0 / vec2( float( size.x ), float( size.y ) );
+
+    return uv * atlasSize + ( vec2( x, y ) * atlasSize );
 
 }
+
+

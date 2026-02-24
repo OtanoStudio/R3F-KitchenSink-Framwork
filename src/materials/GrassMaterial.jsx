@@ -82,7 +82,8 @@ const GrassMaterialImpl = shaderMaterial(
     uTime: 0,
     uNoiseTexture: null,
     uGrassTexture: null,
-    uColorMap: null
+    uColorMap: null,
+    uGrassAtlas: null,
   },
   vertex,
   fragment
@@ -96,6 +97,7 @@ export default function GrassMaterial({
   texture = "./textures/noise/noiseWind.webp",
   grassTexture = "./textures/tiles/grass/grass3.webp",
   grassColorMap = "./textures/gradientmaps/grasssunset.webp",
+  grassTextureAtlas = './textures/tiles/grass/grass_basic_atlas.png',
   ...props
 }) {
   const materialRef = useRef()
@@ -105,12 +107,14 @@ export default function GrassMaterial({
   const grass = useTexture(grassTexture)
   const colorMap = useTexture(grassColorMap)
   colorMap.colorSpace = SRGBColorSpace
+  const grassAtlas = useTexture( grassTextureAtlas )
 
   useEffect(() => {
     
     materialRef.current.uNoiseTexture = noise
     materialRef.current.uGrassTexture = grass
     materialRef.current.uColorMap = colorMap
+    materialRef.current.uGrassAtlas = grassAtlas
 
   }, [ noise, grass ])
 
