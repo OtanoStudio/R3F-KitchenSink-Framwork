@@ -43,11 +43,12 @@ void main()
     );
 
     vec3 positionFinal = position + windPosition;
+    vec4 instancePosition = instanceMatrix * vec4( positionFinal, 1.0 );
 
     gl_Position = projectionMatrix * modelViewMatrix * instanceMatrix * vec4( positionFinal, 1.0 );
 
     vInstance = gl_InstanceID;
     vNormals = normalize( normalMatrix * normal );
-    vView = normalize( cameraPosition - worldPosition.xyz );
+    vView = normalize( cameraPosition - instancePosition.xyz );
 
 }

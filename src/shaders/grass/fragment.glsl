@@ -24,7 +24,7 @@ void main()
     float lightingDiffuse = lightLambert( vNormals, vView );
     colorMap *= lightingDiffuse;
 
-    if( maskGrass < 0.01 ) discard;
+    if( maskGrassAtlas < 0.01 ) discard;
 
     vec4 colorFinal = vec4( colorMap * maskGrassAtlas, 1.0 * maskGrassAtlas );
 
