@@ -3,12 +3,11 @@ import { Object3D, InstancedBufferAttribute, MathUtils } from "three"
 import GrassMaterial from "../materials/GrassMaterial.jsx"
 
 export default function GrassField({
-  count = 3000,
+  count = 1250,
   area = 10
 }) {
   const meshRef = useRef()
   const dummy = useMemo(() => new Object3D(), [])
-  
 
   useEffect(() => {
     if (!meshRef.current) return
@@ -18,9 +17,6 @@ export default function GrassField({
       const z = MathUtils.randFloatSpread(area)
 
       dummy.position.set(x, 0, z)
-
-      // random rotation
-      dummy.rotation.y = Math.random() * Math.PI * 2
 
       // random scale variation
       const scale = 1.0
@@ -37,7 +33,7 @@ export default function GrassField({
 
   return (
     <instancedMesh ref={meshRef} args={[undefined, undefined, count]}>
-      <planeGeometry args={[1, 1, 1, 3]} />
+      <planeGeometry args={[0.6, 0.6, 1, 1]} />
       <GrassMaterial />
     </instancedMesh>
   )

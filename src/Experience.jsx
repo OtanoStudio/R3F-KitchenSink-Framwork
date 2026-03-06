@@ -14,25 +14,25 @@ import { useEffect, useMemo } from "react"
 export default function Experience()
 {
 
-    const { x,y } = useMouse()
+    // const { x,y } = useMouse()
 
-    const { scene, size } = useThree()
+    // const { scene, size } = useThree()
 
-    let fontSize = 1.7
+    // let fontSize = 1.7
 
-    if( size.width < 640 )
-    {
-        fontSize = 0.33
-    }
-    if( size.width < 1024 )
-    {
-        fontSize = 0.73
-    }
+    // if( size.width < 640 )
+    // {
+    //     fontSize = 0.33
+    // }
+    // if( size.width < 1024 )
+    // {
+    //     fontSize = 0.73
+    // }
 
-    gsap.to( scene.rotation,{
-            y: gsap.utils.mapRange( 0, window.innerWidth, 0.05, -0.05, x ),
-            x: gsap.utils.mapRange( 0, window.innerHeight, 0.05, -0.05, y)
-        })
+    // gsap.to( scene.rotation,{
+    //         y: gsap.utils.mapRange( 0, window.innerWidth, 0.05, -0.05, x ),
+    //         x: gsap.utils.mapRange( 0, window.innerHeight, 0.05, -0.05, y)
+    //     })
 
 
 
@@ -50,7 +50,7 @@ export default function Experience()
                 position-y={ -0.49 }
             >
                 <planeGeometry args={[10, 10]} />
-                <meshBasicMaterial color='#d2663b' />
+                <meshBasicMaterial color='#5e3958' />
             </mesh>
         </group>
     

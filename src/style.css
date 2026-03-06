@@ -39,7 +39,7 @@ body,
 
 .grassUI-container > .grassUI-title
 {
-    font-family: 'Betatron';
+    font-family: 'Betatron', sans-serif;
     grid-column: 2/3;
     grid-row: 2/3;
     text-transform: uppercase;
@@ -47,7 +47,7 @@ body,
     color: rgba(255, 255, 255, 0.8 );
     -webkit-text-stroke: 17px rgba(255, 255, 255, 0.35 );
     text-stroke: 17px rgba(255, 255, 255, 0.35 );
-    font-size: clamp(6rem, 12vw, 14rem);
+    font-size: clamp(5.2rem, 10dvw, 14rem);
     user-select: none;
     line-height: 0;
     padding: 0;
