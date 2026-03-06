@@ -3,7 +3,7 @@ import { Object3D, InstancedBufferAttribute, MathUtils } from "three"
 import GrassMaterial from "../materials/GrassMaterial.jsx"
 
 export default function GrassField({
-  count = 1250,
+  count = 1000,
   area = 10
 }) {
   const meshRef = useRef()

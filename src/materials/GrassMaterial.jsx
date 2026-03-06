@@ -99,8 +99,8 @@ extend({ GrassMaterialImpl })
 /* ---------- COMPONENT ---------- */
 
 export default function GrassMaterial({
-  texture = "./textures/noise/noiseWind.webp",
-  velocityTexture = './textures/noise/noiseFBM.webp',
+  texture = "./textures/noise/noiseWindFBM.webp",
+  velocityTexture = './textures/noise/noiseWindTurbulence.webp',
   grassColorMap = "./textures/gradientmaps/grassocean.webp",
   grassTextureAtlas = './textures/tiles/grass/grassAtlasHanddrawn.webp',
   ...props

@@ -396,15 +396,164 @@ vec3 windDeform(
     turbulenceUV = rot * turbulenceUV;
 
     vec2 warp = texture( turbulenceNoise, turbulenceUV - windTurbulenceSpeed + phase ).rg;
-    warp *= 2.0 - 1.0;
+    warp = warp * 2.0 - 1.0;
     windUV += warp * domainOffset;
 
     float windBase = texture( windNoise, windUV - windSpeed + phase ).r * 2.0 - 1.0;
     float windTurbulence = warp.g;
 
     float windSway = windBase * swayMultiplier.x + windTurbulence * swayMultiplier.y * windBase;
-    float bend = pow(  clamp( uv.y, 0.0, 1.0 ), bendStiffness );
+    float bend = pow(  uv.y, bendStiffness );
     float lift = windSway * positionOffset.z * liftOffset;
+
+    vec3 windPosition = vec3(
+        windSway * windDir.x,
+        lift,
+        windSway * windDir.y
+    ) * windOffset;
+
+    windPosition *= bend * windMultiplier;
+
+    return windPosition;
+
+}
+
+// additional gust parameter
+vec3 windDeform(
+    vec2 uvWind, // world space position x & z
+    vec2 uv, // texture uv for noise sampling
+    vec3 positionOffset, // xy offset worldspace, z offsets the y movement direction
+    vec2 windDirection, // direction of the wind
+    vec2 velocity, // speed per uv axis, xy & zw
+    vec2 phase, // per blade uniformity breaker
+    vec2 swayMultiplier, // blend multipliers for sway of wind
+    vec3 gustModifiers, // gust values
+    vec2 gustBlend, // gust mix values
+    vec2 gustTurbulence,
+    float bendStiffness, // multiplier for blade bend
+    float turbulenceOffset, // additional offset for turbulence
+    float time, // time for scrolling texture
+    float windMultiplier, // final strength of the wind
+    float windOffset, // additional wind offset
+    float liftOffset, // vertical lift offset
+    float domainOffset, // offset for wind domain warp
+    sampler2D windNoise, // base noise for wind movement
+    sampler2D turbulenceNoise // noise for turbulence
+    
+)
+{
+
+    vec2 windDir = normalize( windDirection );
+    vec2 windSpeed = windDir * velocity.x * time;
+    vec2 windTurbulenceSpeed = windDir * velocity.y * time;
+
+    vec2 windUV = uvWind;
+    windUV *= positionOffset.xy;
+
+    mat2 rot = mat2(
+    0.8, -0.6,
+    0.6,  0.8
+    );
+
+    vec2 turbulenceUV = windUV;
+    turbulenceUV *=  turbulenceOffset;
+    turbulenceUV = rot * turbulenceUV;
+
+    vec2 warp = texture( turbulenceNoise, turbulenceUV - windTurbulenceSpeed + phase ).rg;
+    warp = warp * 2.0 - 1.0;
+    windUV += warp * domainOffset;
+
+    float windBase = texture( windNoise, windUV - windSpeed + phase ).r * 2.0 - 1.0;
+    float windTurbulence = warp.g;
+
+    float gusts = sin( dot( uvWind, windDir ) * gustModifiers.x - time * gustModifiers.y );
+
+    gusts = gusts * 0.5 + 0.5;
+    gusts = pow( gusts, gustModifiers.z );
+    gusts *= gustTurbulence.x + abs( windTurbulence ) * gustTurbulence.y;
+
+    float windSway = windBase * swayMultiplier.x + windTurbulence * swayMultiplier.y * windBase;
+    windSway *= mix( gustBlend.x, gustBlend.y, gusts );
+
+    float bend = pow(  uv.y, bendStiffness );
+    float lift = windSway * positionOffset.z * liftOffset;
+
+
+    vec3 windPosition = vec3(
+        windSway * windDir.x,
+        lift,
+        windSway * windDir.y
+    ) * windOffset;
+
+    windPosition *= bend * windMultiplier;
+
+    return windPosition;
+
+}
+
+// gusts with turbulence added to gusts
+vec3 windDeform(
+    vec2 uvWind, // world space position x & z
+    vec2 uv, // texture uv for noise sampling
+    vec3 positionOffset, // xy offset worldspace, z offsets the y movement direction
+    vec2 windDirection, // direction of the wind
+    vec2 velocity, // speed per uv axis, xy & zw
+    vec2 phase, // per blade uniformity breaker
+    vec2 swayMultiplier, // blend multipliers for sway of wind
+    vec3 gustModifiers, // gust values
+    vec2 gustBlend, // gust mix values
+    vec2 gustTurbulence, // gust turbulence factors
+    vec3 terrainWave, // terrain wave
+    float bendStiffness, // multiplier for blade bend
+    float turbulenceOffset, // additional offset for turbulence
+    float time, // time for scrolling texture
+    float windMultiplier, // final strength of the wind
+    float windOffset, // additional wind offset
+    float liftOffset, // vertical lift offset
+    float domainOffset, // offset for wind domain warp
+    sampler2D windNoise, // base noise for wind movement
+    sampler2D turbulenceNoise // noise for turbulence
+    
+)
+{
+
+    vec2 windDir = normalize( windDirection );
+    vec2 windSpeed = windDir * velocity.x * time;
+    vec2 windTurbulenceSpeed = windDir * velocity.y * time;
+
+    vec2 windUV = uvWind;
+    windUV *= positionOffset.xy;
+
+    mat2 rot = mat2(
+    0.8, -0.6,
+    0.6,  0.8
+    );
+
+    vec2 turbulenceUV = windUV;
+    turbulenceUV *=  turbulenceOffset;
+    turbulenceUV = rot * turbulenceUV;
+
+    vec2 warp = texture( turbulenceNoise, turbulenceUV - windTurbulenceSpeed + phase ).rg;
+    warp = warp * 2.0 - 1.0;
+    windUV += warp * domainOffset;
+
+    float windBase = texture( windNoise, windUV - windSpeed + phase ).r * 2.0 - 1.0;
+    float windTurbulence = warp.g;
+
+    float gusts = sin( dot( uvWind, windDir ) * gustModifiers.x - time * gustModifiers.y );
+
+    gusts = gusts * 0.5 + 0.5;
+    gusts = pow( gusts, gustModifiers.z );
+    gusts *= gustTurbulence.x + abs( windTurbulence ) * gustTurbulence.y;
+
+    float windSway = windBase * swayMultiplier.x + windTurbulence * swayMultiplier.y * windBase;
+    float terrainSway = sin((uvWind.x + uvWind.y) * terrainWave.x - time * terrainWave.y);
+    windSway *= 1.0 + terrainSway * terrainWave.z;
+    windSway *= mix( gustBlend.x, gustBlend.y, gusts );
+
+    float bend = pow(  uv.y, bendStiffness );
+    float lift = windSway * positionOffset.z * liftOffset;
+
 
     vec3 windPosition = vec3(
         windSway * windDir.x,
