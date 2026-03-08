@@ -25,77 +25,39 @@ void main()
     float time = uTime * 0.35;
 
     vec2 phase = vec2(
-        float( gl_InstanceID ) * 0.317,
-        float( gl_InstanceID ) * 0.491 );
+        fract( float( gl_InstanceID ) * 0.37 ),
+        fract( float( gl_InstanceID ) * 0.73 ) );
     
     vec3 windPosition = windDeform(
+    positionWorld.xz * 0.25,        // uvWind
+    uv,                      // blade uv
 
-    positionWorldSpace.xz,   // uvWind (world space wind field)
-    uv,                      // blade UV
+    vec3(1.0, 1.0, 0.3 ),     // positionOffset
 
-    vec3(
-        0.4,                // terrain wind scale X
-        0.8,                // terrain wind scale Z
-        0.35                 // vertical lift influence
-    ),
+    vec2(1.0, 0.35),         // windDirection
 
-    vec2(
-        1.0,                 // wind direction X
-        0.35                 // wind direction Z
-    ),
+    vec2(0.12, 0.04),        // velocity (wind, turbulence)
 
-    vec2(
-        0.025,               // base wind speed
-        0.08                 // turbulence speed
-    ),
+    phase,                       // phase per blade
 
-    phase,                   // per-instance variation
+    vec2(1.0, 0.35),         // swayMultiplier
 
-    vec2(
-        1.25,                // base sway strength
-        2.1                  // turbulence sway influence
-    ),
+    vec3(0.35, 0.6, 2.0),    // gustModifiers
+    vec2(0.85, 1.25),        // gustBlend
+    vec3(0.15, 0.45, 0.4),   // terrainWave
 
-    vec3(
-        0.35,                // gust spatial size
-        0.28,                // gust speed
-        2.0                  // gust sharpness
-    ),
+    2.5,                     // bendStiffness
 
-    vec2(
-        0.7,                 // calm wind multiplier
-        1.38                  // strong gust multiplier
-    ),
+    0.12,                    // turbulenceOffset
 
-    vec2(
-        0.3,                 // base gust influence
-        0.5                  // turbulence influence
-    ),
+    time,
 
-    vec3(
-        0.05,                // terrain wave size
-        0.12,                // terrain wave speed
-        0.55                 // terrain wave strength
-    ),
-
-    1.6,                    // bend stiffness
-
-    0.8,                    // turbulence UV scale
-
-    time,                   // time
-
-    0.8,                    // final wind multiplier
-
-    0.085,                  // wind offset
-
-    0.015,                  // lift offset
-
-    0.15,                   // domain warp strength
-
+    0.8,                     // windMultiplier
+    0.3,                     // windOffset
+    0.25,                    // liftOffset
+    0.45,                   // texture rotation angle
     uNoiseTexture,     // base wind noise
-
     uVelocityTexture    // turbulence noise
-
 );
 
 

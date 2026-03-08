@@ -99,7 +99,7 @@ extend({ GrassMaterialImpl })
 /* ---------- COMPONENT ---------- */
 
 export default function GrassMaterial({
-  texture = "./textures/noise/noiseWindFBM.webp",
+  texture = "./textures/noise/noisePerlinWind.webp",
   velocityTexture = './textures/noise/noiseWindTurbulence.webp',
   grassColorMap = "./textures/gradientmaps/grassocean.webp",
   grassTextureAtlas = './textures/tiles/grass/grassAtlasHanddrawn.webp',
@@ -109,6 +109,7 @@ export default function GrassMaterial({
 
   const noise = useTexture(texture)
   noise.wrapS = noise.wrapT = RepeatWrapping
+  noise.minFilter = noise.magFilter = LinearFilter
   const colorMap = useTexture(grassColorMap)
   colorMap.colorSpace = SRGBColorSpace
   const grassAtlas = useTexture( grassTextureAtlas )
@@ -117,6 +118,7 @@ export default function GrassMaterial({
   grassAtlas.generateMipmaps = false
   const windVelocity = useTexture( velocityTexture )
   windVelocity.wrapS = windVelocity.wrapT = RepeatWrapping
+  windVelocity.minFilter = windVelocity.magFilter = LinearFilter
   const { camera } = useThree()
   const camInvMat = camera.matrixWorldInverse
 
