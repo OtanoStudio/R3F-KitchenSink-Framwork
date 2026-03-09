@@ -95,3 +95,35 @@ float depth
     return uv + parallaxUV;
 
 }
+
+// ray marched version
+vec2 uvParallaxRM(
+    vec2 uv,
+    vec3 viewDir,
+    sampler2D depthMap,
+    float heightScale
+){
+    float minLayers = 8.0;
+    float maxLayers = 32.0;
+
+    float numLayers = mix(maxLayers, minLayers, abs(viewDir.z));
+
+    float layerDepth = 1.0 / numLayers;
+    float currentLayerDepth = 0.0;
+
+    vec2 P = viewDir.xy / viewDir.z * heightScale;
+    vec2 deltaUV = P / numLayers;
+
+    vec2 currentUV = uv;
+
+    float currentDepth = texture(depthMap, currentUV).r;
+
+    while(currentLayerDepth < currentDepth)
+    {
+        currentUV -= deltaUV;
+        currentDepth = texture(depthMap, currentUV).r;
+        currentLayerDepth += layerDepth;
+    }
+
+    return currentUV;
+}
