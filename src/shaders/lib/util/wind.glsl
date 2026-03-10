@@ -14,7 +14,7 @@ vec3 wind(
 
     vec2 scroll = windVelocity * speed;
     windUV += positionOffset.xy;
-    float windNoise = texture( noiseTexture, windUV  - scroll ).r * 2.0 - 1.0;
+    float windNoise = textureLod( noiseTexture, windUV  - scroll, 0.0 ).r * 2.0 - 1.0;
     float windAffect = smoothstep( 0.0, 1.0,pow( uv.y, windOffset.y ) );
     float lift =  windNoise * positionOffset.z * 0.2;
 
@@ -46,7 +46,7 @@ vec3 wind(
 
     vec2 scroll = windVelocity * speed;
     windUV *= positionOffset.xy;
-    float windNoise = texture( noiseTexture, windUV  - scroll + phase ).r * 2.0 - 1.0;
+    float windNoise = textureLod( noiseTexture, windUV  - scroll + phase, 0.0 ).r * 2.0 - 1.0;
     float windAffect = smoothstep( 0.0, 1.0, pow( uv.y, windOffset.y ) );
     float lift =  windNoise * positionOffset.z * 0.2;
 
@@ -86,10 +86,10 @@ vec3 wind(
     vec2 windUV2 = windUV1;
     windUV2 *= gustOffset.x;
 
-    float windNoise = texture( noiseTexture, windUV1  - scroll ).r * 2.0 - 1.0;
+    float windNoise = textureLod( noiseTexture, windUV1  - scroll, 0.0 ).r * 2.0 - 1.0;
     
     
-    float windNoise2 = texture( noiseTexture, windUV2 - scroll2 ).g * 2.0 - 1.0;
+    float windNoise2 = textureLod( noiseTexture, windUV2 - scroll2, 0.0 ).g * 2.0 - 1.0;
 
     float windFinal = mix( windNoise, windNoise2, gustOffset.z );
 
@@ -207,11 +207,11 @@ vec3 windDeform(
     turbulenceUV *=  turbulenceOffset;
     turbulenceUV = rot * turbulenceUV;
 
-    vec2 warp = texture( turbulenceNoise, turbulenceUV - windTurbulenceSpeed + phase ).rg;
+    vec2 warp = textureLod( turbulenceNoise, turbulenceUV - windTurbulenceSpeed + phase, 0.0 ).rg;
     warp = warp * 2.0 - 1.0;
     windUV += warp * domainOffset;
 
-    float windBase = texture( windNoise, windUV - windSpeed + phase ).r * 2.0 - 1.0;
+    float windBase = textureLod( windNoise, windUV - windSpeed + phase, 0.0 ).r * 2.0 - 1.0;
     float windTurbulence = warp.g;
 
     float windSway = windBase * swayMultiplier.x + windTurbulence * swayMultiplier.y;
@@ -276,12 +276,12 @@ vec3 windDeform(
     turbulenceUV *=  turbulenceOffset;
     turbulenceUV = rot * turbulenceUV;
 
-    //vec2 warp = texture( turbulenceNoise, turbulenceUV - windTurbulenceSpeed + phase ).rg;
-    vec2 warp = texture( turbulenceNoise, turbulenceUV - windTurbulenceSpeed ).rg;
+    //vec2 warp = textureLod( turbulenceNoise, turbulenceUV - windTurbulenceSpeed + phase, 0.0 ).rg;
+    vec2 warp = textureLod( turbulenceNoise, turbulenceUV - windTurbulenceSpeed, 0.0 ).rg;
     warp = warp * 2.0 - 1.0;
     windUV += warp * domainOffset;
 
-    float windBase = texture( windNoise, windUV - windSpeed + phase ).r * 2.0 - 1.0;
+    float windBase = textureLod( windNoise, windUV - windSpeed + phase, 0.0 ).r * 2.0 - 1.0;
     float windTurbulence = warp.g * 0.5;
     float windAxis = dot( uvWind * 0.2, windDir );
     float gusts = sin(  windAxis * gustModifiers.x - time * gustModifiers.y );
@@ -358,9 +358,10 @@ vec3 windDeform(
 
     vec2 turbulenceUV = rot * (windUV * turbulenceOffset);
 
-    vec2 turbulence = texture(
+    vec2 turbulence = textureLod(
         turbulenceNoise,
-        turbulenceUV - windTurbulenceSpeed + phase
+        turbulenceUV - windTurbulenceSpeed + phase,
+        0.0
     ).rg;
 
     turbulence = turbulence * 2.0 - 1.0;
@@ -368,9 +369,10 @@ vec3 windDeform(
     // smooth turbulence (removes flicker)
     float windTurbulence = sin(turbulence.g * 1.5) * 0.25;
 
-    float windBase = texture(
+    float windBase = textureLod(
         windNoise,
-        windUV - windSpeed + phase
+        windUV - windSpeed + phase,
+        0.0
     ).r * 2.0 - 1.0;
 
     float windAxis = dot(uvWind * 0.2, windDir);

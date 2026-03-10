@@ -10,6 +10,17 @@ vec2 uvParallax(
 
 vec2 uvParallax( 
     vec2 uv, // uv
+    vec3 viewDir, // tangent space view direction
+    float height, // height of the parallax
+    float offset, // offset for the depth
+    int type // sub or add
+)
+{
+    return type <= 1 ? uv + ( viewDir.xy * ( height * offset ) ) : uv - ( viewDir.xy * ( height * offset ) );
+}
+
+vec2 uvParallax( 
+    vec2 uv, // uv
     sampler2D height, // texture for depth
     float offset // offset for the depth
 )

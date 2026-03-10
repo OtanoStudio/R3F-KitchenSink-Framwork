@@ -29,7 +29,7 @@ void main()
         fract( float( gl_InstanceID ) * 0.73 ) );
     
     vec3 windPosition = windDeform(
-    positionWorld.xz * 0.25,        // uvWind
+    uvStretch( positionWorld.xz * 0.01, vec2( 1.0, 4.6 ) ),        // uvWind
     uv,                      // blade uv
 
     vec3(1.0, 1.0, 0.3 ),     // positionOffset
@@ -46,7 +46,7 @@ void main()
     vec2(0.85, 1.25),        // gustBlend
     vec3(0.15, 0.45, 0.4),   // terrainWave
 
-    2.5,                     // bendStiffness
+    3.0,                     // bendStiffness
 
     0.12,                    // turbulenceOffset
 
