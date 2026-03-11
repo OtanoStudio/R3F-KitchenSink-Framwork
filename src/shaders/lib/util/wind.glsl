@@ -93,7 +93,7 @@ vec3 wind(
 
     float windFinal = mix( windNoise, windNoise2, gustOffset.z );
 
-    float windAffect = smoothstep( -1.0, 1.0, pow( uv.y, windOffset.y ) );
+    float windAffect = smoothstep( 0.0, 1.0, pow( uv.y, windOffset.y ) );
 
     float lift = windFinal * positionOffset.z * 0.2;
 
@@ -215,7 +215,7 @@ vec3 windDeform(
     float windTurbulence = warp.g;
 
     float windSway = windBase * swayMultiplier.x + windTurbulence * swayMultiplier.y;
-    float bend = smoothstep( -1.0, 1.0, pow(  uv.y, bendStiffness ) );
+    float bend = smoothstep( 0.0, 1.0, pow(  uv.y, bendStiffness ) );
     float lift = windSway * positionOffset.z * liftOffset;
 
     vec3 windPosition = vec3(
@@ -287,16 +287,17 @@ vec3 windDeform(
     float gusts = sin(  windAxis * gustModifiers.x - time * gustModifiers.y );
 
     gusts = gusts * 0.5 + 0.5;
-    gusts = pow( gusts, gustModifiers.z );
+    gusts = smoothstep( 0.2, 0.8, gusts );//pow( gusts, gustModifiers.z );
     gusts *= gustTurbulence.x + windTurbulence * gustTurbulence.y;
 
-    float windSway = sin(windBase * 1.5) * swayMultiplier.x + windTurbulence * swayMultiplier.y;
+    float windSway = sin(windBase * 1.5 + windTurbulence ) * swayMultiplier.x + windTurbulence * swayMultiplier.y;
+    //float windSway = sin(windBase * 1.5) * swayMultiplier.x + windTurbulence * swayMultiplier.y;
     float terrainSway = sin( windAxis * terrainWave.x - time * terrainWave.y );
     windSway *= 1.0 + terrainSway * terrainWave.z;
     windSway *= mix( gustBlend.x, gustBlend.y, gusts );
 
     float bend = pow(  uv.y, bendStiffness );
-    bend = smoothstep( -1.0, 1.0, bend );
+    bend = smoothstep( 0.0, 1.0, bend );
     float lift = windSway * positionOffset.z * liftOffset;
 
 
@@ -306,7 +307,7 @@ vec3 windDeform(
         windSway * windDir.y
     ) * windOffset;
 
-    windPosition *= bend * windMultiplier;
+    windPosition *= bend * bend * windMultiplier;
 
     return windPosition;
 
@@ -367,7 +368,7 @@ vec3 windDeform(
     turbulence = turbulence * 2.0 - 1.0;
 
     // smooth turbulence (removes flicker)
-    float windTurbulence = sin(turbulence.g * 1.5) * 0.25;
+    float windTurbulence = turbulence.g * 1.5 * 0.25;//sin(turbulence.g * 1.5) * 0.25;
 
     float windBase = textureLod(
         windNoise,
@@ -382,7 +383,8 @@ vec3 windDeform(
     );
 
     gusts = gusts * 0.5 + 0.5;
-    gusts = pow(gusts, gustModifiers.z);
+    gusts = smoothstep( 0.2, 0.8, gusts );
+    //gusts = pow(gusts, gustModifiers.z);
 
     float windSway =
         sin(windBase * 1.4) * swayMultiplier.x +
@@ -396,7 +398,7 @@ vec3 windDeform(
 
     windSway *= mix(gustBlend.x, gustBlend.y, gusts);
 
-    float bend = smoothstep(-1.0, 1.0, pow(uv.y, bendStiffness));
+    float bend = smoothstep(0.0, 1.0, pow(uv.y, bendStiffness));
 
     float lift = windSway * positionOffset.z * liftOffset;
 
@@ -406,7 +408,8 @@ vec3 windDeform(
         windSway * windDir.y
     ) * windOffset;
 
-    windPosition *= bend * windMultiplier;
+    //windPosition *= bend * windMultiplier;
+    windPosition *= bend * bend * windMultiplier;
 
     return windPosition;
 
