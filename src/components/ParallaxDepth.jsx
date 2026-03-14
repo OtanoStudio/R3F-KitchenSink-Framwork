@@ -1,4 +1,4 @@
-import React from 'react'
+import ParallaxDepthMaterial from '../materials/ParallaxDepthMaterial.jsx';
 
 export default function ParallaxDepth(
     {
@@ -11,7 +11,10 @@ export default function ParallaxDepth(
 
 
   return (
-    <div>ParallaxDepth</div>
+    <mesh>
+      <planeGeometry args={[ 4, 4, 1, 1 ]} />
+      <ParallaxDepthMaterial />
+    </mesh>
   )
 
 }

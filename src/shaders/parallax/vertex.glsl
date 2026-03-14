@@ -14,9 +14,9 @@ void main()
 
     gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
 
-    vViewDir = normalize( cameraPosition - mp );
+    vViewDir = normalize( cameraPosition - mp.xyz );
     vUv = uv;
     vNormals = normal;
-    vNormalWS = ( normalMatrix * vec4( normal, 0.0 ) ).xyz;
+    vNormalWS = normalMatrix * normal;
 
 }

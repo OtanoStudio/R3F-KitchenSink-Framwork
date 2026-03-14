@@ -60,3 +60,9 @@ float duration(
     return fract( time * speed + delay );
 
 }
+
+/*
+
+timing = lerp( start, end, fn( time / duration ) );
+
+*/

@@ -75,7 +75,7 @@ vec2 uvParallax(
     sampler2D height, // texture for depth
     float depthOffset, // depth offset
     float offset, // offset
-    vec2 time, // fixed time with scroll speed included
+    vec2 time // fixed time with scroll speed included
 
 )
 {

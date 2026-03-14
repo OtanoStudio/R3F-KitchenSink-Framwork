@@ -1,38 +1,53 @@
-import { shaderMaterial } from '@react-three/drei'
-import { extend } from '@react-three/fiber'
+import { shaderMaterial, useTexture } from '@react-three/drei'
+import { extend, useFrame } from '@react-three/fiber'
 import React, { useEffect, useRef } from 'react'
 import vertex from '../shaders/parallax/vertex.glsl'
 import fragment from '../shaders/parallax/fragment.glsl'
+import { SRGBColorSpace } from 'three'
 
+const CustomMaterial = shaderMaterial(
+  {
+    uTime: 0,
+    uBaseImg: null,
+    uDepthImg: null,
+    uDepthOffset: 0.05
+  },
+  vertex,
+  fragment
+)
 
-const customMaterial = shaderMaterial( 
-    {
-        uTime: 0,
-        uBaseImg: null,
-        uDepthImg: null,
-        uDepthOffset: 0.01
-    }, 
-    vertex, 
-    fragment 
-);
+extend({ CustomMaterial })
 
-extend( { customMaterial } );
+export default function ParallaxDepthMaterial({
+  baseImg = './textures/parallax/david.webp',
+  depthImg = './textures/parallax/daviddepth.webp',
+  ...props
+}) {
 
-export default function ParallaxDepthMaterial() 
-{
+  const self = useRef()
 
-    const self = useRef();
+  const base = useTexture(baseImg)
+  const depth = useTexture(depthImg)
 
-    useEffect( () =>{
-        self.current.uniforms.uBaseImg.value = ''
-    }, []);
+  base.colorSpace = SRGBColorSpace
+
+  useEffect(() => {
+    if (!self.current) return
+
+    self.current.uBaseImg = base
+    self.current.uDepthImg = depth
+  }, [base, depth])
+
+  useFrame((state, delta) => {
+    if (!self.current) return
+    self.current.uTime += delta
+  })
 
   return (
-    <ParallaxDepthMaterial
-        key={ customMaterial.key }
-        ref={ self }
-        { ...props }
+    <customMaterial
+      ref={self}
+      key={CustomMaterial.key}
+      {...props}
     />
   )
-
 }
