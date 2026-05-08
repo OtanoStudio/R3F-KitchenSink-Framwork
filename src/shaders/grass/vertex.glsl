@@ -22,7 +22,7 @@ void main()
 
     vec4 positionWorldSpace = modelMatrix * vec4( position, 1.0 );
     vec4 positionWorld = modelMatrix * instanceMatrix * vec4( position, 1.0 );
-    float time = uTime * 0.35;
+    float time = uTime * 0.6;
 
     vec2 phase = vec2(
         fract( float( gl_InstanceID ) * 0.37 ),
@@ -32,11 +32,11 @@ void main()
     uvStretch( positionWorld.xz * 0.01, vec2( 1.0, 4.6 ) ),        // uvWind
     uv,                      // blade uv
 
-    vec3(1.0, 1.0, 0.3 ),     // positionOffset
+    vec3(1.0, 1.8, 0.3 ),     // positionOffset
 
     vec2(1.0, 0.35),         // windDirection
 
-    vec2(0.12, 0.04),        // velocity (wind, turbulence)
+    vec2(0.18, 0.08),        // velocity (wind, turbulence)
 
     phase,                       // phase per blade
 
