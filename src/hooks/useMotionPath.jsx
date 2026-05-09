@@ -1,7 +1,13 @@
 // Generate a data texture as a motion path for animation
 
 import { useEffect, useMemo } from "react";
-import { ClampToEdgeWrapping, DataTexture, FloatType, LinearFilter, NoColorSpace, RGBAFormat, Vector4 } from "three";
+import { Vector4 } from "three";
+import { ClampToEdgeWrapping, 
+    DataTexture, 
+    FloatType, 
+    LinearFilter, 
+    NoColorSpace, 
+    RGBAFormat } from "three/src/constants.js";
 
 
 export function useMotionPath({
