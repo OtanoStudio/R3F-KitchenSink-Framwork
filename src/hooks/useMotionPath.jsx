@@ -1,63 +1,98 @@
-// Generate a data texture as a motion path for animation
-
 import { useEffect, useMemo } from "react";
-import { Vector4 } from "three";
-import { ClampToEdgeWrapping, 
-    DataTexture, 
-    FloatType, 
-    LinearFilter, 
-    NoColorSpace, 
-    RGBAFormat } from "three/src/constants.js";
 
+import {
+  DataTexture,
+  FloatType,
+  RGBAFormat,
+  LinearFilter,
+  ClampToEdgeWrapping,
+  NoColorSpace,
+  Vector3
+} from "three";
 
-export function useMotionPath({
-    shape = ( t ) =>{
-        return new Vector4( Math.sin( t ) * 0.3, 0, 0, 0 );
-    },
-    size = 512
-})
+const current = new Vector3();
+const next = new Vector3();
+const tangent = new Vector3();
+
+export function useMotionPath(
 {
-    
-    const motionCurve = useMemo( () =>
-    {
 
-        const data = new Float32Array( size * 4 );
+  shape = (t, target) => {
+    target.set(t, 0, 0);
+  },
+  size = 512
 
-        for( let i = 0; i < size; i++ )
-        {
+}) 
+{
 
-            const t = i / ( size - 1 );
-            const point = shape( t );
+const texture = useMemo( () => 
+{
 
-            const index = i * 4;
+    const data = new Float32Array( size * 4 );
 
-            data[ index ] = point.x;
-            data[ index + 1 ] = point.y;
-            data[ index + 2 ] = point.z;
-            data[ index + 3 ] = point.w ?? 0;
+    const step = 1 / ( size - 1 );
+
+    for( let i = 0; i < size; i++ ) {
+
+        const t = i / ( size - 1 );
+
+        shape(t, current);
+
+        shape(
+            Math.min( t + step, 1.0 ),
+            next
+        );
+
+        tangent
+            .subVectors( next, current )
+            .normalize();
+
+        const angle = Math.atan2(
+            tangent.x,
+            tangent.z
+        );
+
+        const stride = i * 4;
+
+        data[ stride ] = current.x;
+        data[ stride + 1 ] = current.y;
+        data[ stride + 2 ] = current.z;
+        data[ stride + 3 ] = angle;
 
         }
 
-        const motionTexture = new DataTexture( data, size, 1, RGBAFormat, FloatType );
-        motionTexture.magFilter = LinearFilter;
-        motionTexture.minFilter = LinearFilter;
-        motionTexture.wrapS = motionTexture.wrapT = ClampToEdgeWrapping;
-        motionTexture.colorSpace = NoColorSpace;
-        motionTexture.needsUpdate = true;
+        const tex = new DataTexture(
+        data,
+        size,
+        1,
+        RGBAFormat,
+        FloatType
+        );
 
-        return motionTexture;
-    }, [ shape, size ] );
+        tex.minFilter = LinearFilter;
+        tex.magFilter = LinearFilter;
 
-    useEffect( () =>
+        tex.wrapS = ClampToEdgeWrapping;
+        tex.wrapT = ClampToEdgeWrapping;
+
+        tex.colorSpace = NoColorSpace;
+
+        tex.needsUpdate = true;
+
+        return tex;
+
+    }, [ shape, size ]);
+
+    useEffect(() => 
     {
 
-        return () =>
+        return () => 
         {
-            motionCurve.dispose();
-        }
+            texture.dispose();
+        };
 
-    }, [ motionCurve ])
+  }, [texture]);
 
-    return motionCurve;
+  return texture;
 
 }

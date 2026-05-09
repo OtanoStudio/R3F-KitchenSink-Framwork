@@ -2,7 +2,7 @@
 #include ./getDirectionRotation.glsl
 #include ../math/tanh.glsl
 
-vec3 getDeformedPosition(
+vec3 motionPathDeform(
     vec3 pos,
     vec2 uv,
     float progress,
@@ -21,20 +21,20 @@ vec3 getDeformedPosition(
     float weight = texture2D(weightSampler, uv).r;
 
     vec3 pathDisplacement = curveData.rgb;
-    pathDisplacement.xy = getDirectionRotation(direction) * pathDisplacement.xy;
+    pathDisplacement.xy = getDirectionRotation( direction ) * pathDisplacement.xy;
 
-    float bend = uBendStrength + (intensity * 0.4);
-    float twist = uRotationEase + (intensity * 0.2);
+    float bend = uBendStrength + ( intensity * 0.4 );
+    float twist = uRotationEase + ( intensity * 0.2 );
 
     float lean = tanh( velocity ) * 0.1 * weight;
 
-    float angle = useTwist ? (curveData.a * twist * weight) : 0.0;
-    vec3 transformed = rotateY(pos, angle);
+    float angle = useTwist ? ( curveData.a * twist * weight ) : 0.0;
+    vec3 transformed = rotateY( pos, angle );
 
     // Apply Lean based on direction
-    vec2 leanVec = vec2(-direction.y, direction.x) * lean; 
+    vec2 leanVec = vec2( -direction.y, direction.x ) * lean; 
     
-    transformed += (pathDisplacement * weight * bend);
+    transformed += ( pathDisplacement * weight * bend );
     transformed.xy += leanVec;
 
     return transformed;
