@@ -9,14 +9,14 @@ void main()
 {
 
     vec4 worldPos = modelMatrix * vec4( position, 1.0 );
-    vec4 worldNorm = modelMatrix * vec4( normal, 0.0 );
+    vec3 worldNorm = normalMatrix * normal;
 
     gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
 
     vUv = uv;
     worldPosition = worldPos.xyz;
-    worldNormal = worldNorm.xyz;
-    viewDirection = cameraPosition - worldPosition.xyz;
+    worldNormal = worldNorm;
+    viewDirection = cameraPosition - worldPosition;
     normals = normal;
     
 }

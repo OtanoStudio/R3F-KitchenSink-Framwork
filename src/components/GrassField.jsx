@@ -3,8 +3,8 @@ import { Object3D, InstancedBufferAttribute, MathUtils } from "three"
 import GrassMaterial from "../materials/GrassMaterial.jsx"
 
 export default function GrassField({
-  count = 1000,
-  area = 10
+  count = 2000,
+  area = 12
 }) {
   const meshRef = useRef()
   const dummy = useMemo(() => new Object3D(), [])
