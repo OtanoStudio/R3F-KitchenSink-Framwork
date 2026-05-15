@@ -62,6 +62,7 @@ in vec3 vWorldNormal;
 in vec3 vViewDirWorld;
 
 #include <packing>
+#include '../lib/blur/blurBox.glsl
 
 void main()
 {
@@ -111,7 +112,7 @@ void main()
             vUVParallax + vUVScroll
         ).r;
 
-    fog = pow(fog, 0.834);
+    fog = pow(fog, 0.4);
 
     float ring =
         texture(uPositionMask, vUv).r;

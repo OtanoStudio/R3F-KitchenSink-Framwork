@@ -35,19 +35,19 @@ export default function Experience()
     useFrame( ( { gl, camera, scene }, delta ) =>
     {
         fog1.current.visible = false;
-        fog2.current.visible = false;
+        // fog2.current.visible = false;
 
         gl.setRenderTarget( sceneFBO );
         gl.clear();
         gl.render( scene, camera );
         fog1.current.material.uniforms.uDepthTexture.value = sceneFBO.depthTexture;
         fog1.current.material.uniforms.uSceneColor.value = sceneFBO.texture;
-        fog2.current.material.uniforms.uDepthTexture.value = sceneFBO.depthTexture;
-        fog2.current.material.uniforms.uSceneColor.value = sceneFBO.texture;
+        // fog2.current.material.uniforms.uDepthTexture.value = sceneFBO.depthTexture;
+        // fog2.current.material.uniforms.uSceneColor.value = sceneFBO.texture;
         gl.setRenderTarget( null );
 
         fog1.current.visible = true;
-        fog2.current.visible = true;
+        // fog2.current.visible = true;
 
         gl.render( scene, camera );
 
@@ -74,16 +74,16 @@ export default function Experience()
             {/* <CyborgPlane /> */}
             <TerrainFog
                 rotation-x={ -90 * Math.PI / 180}
-                position-y={ .1401 }
+                position-y={ .08 }
                 ref={ fog1 }
             />
-            <TerrainFog
+            {/* <TerrainFog
                 rotation-x={ -90 * Math.PI / 180}
                 position-y={ .173 }
                 noiseScrollSpeed={ -0.04 }
                 fogParallaxAmt={ 0.5 }
                 ref={ fog2 }
-            />
+            /> */}
         </group>
     
     )
