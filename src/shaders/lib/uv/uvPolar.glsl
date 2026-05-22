@@ -11,6 +11,17 @@ vec2 uvPolar(vec2 uv)
 
 }
 
+vec2 uvPolar( vec2 uv, float pi )
+{
+
+    uv = uv * 2.0 - 1.0;
+    float radius = length( uv );
+    float angle = atan( uv.x, uv.y );
+
+    return vec2( angle / pi, radius ) / 2.0;
+    
+}
+
 
 vec2 uvPolar( vec2 uv, float scale, float offset ) 
 {

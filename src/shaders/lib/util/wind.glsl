@@ -415,6 +415,83 @@ vec3 windDeform(
 
 }
 
+vec3 windDeform(
+    vec2 uvWind, 
+    vec2 uv, 
+    vec3 positionOffset, 
+    vec2 windDirection, 
+    vec2 velocity, 
+    vec2 phase, 
+    vec2 swayMultiplier, 
+    vec3 gustModifiers, 
+    vec2 gustBlend, 
+    vec2 gustTurbulence, 
+    vec3 terrainWave, 
+    mat2 precalculatedRot, // OPTIMIZATION: Pass rotation matrix directly
+    float bendStiffness, 
+    float turbulenceOffset, 
+    float time, 
+    float windMultiplier, 
+    float windOffset, 
+    float domainOffset, 
+    sampler2D windNoise, 
+    sampler2D turbulenceNoise
+)
+{
+    vec2 windDir = normalize(windDirection);
+    vec2 windSpeed = windDir * velocity.x * time;
+    vec2 windTurbulenceSpeed = windDir * velocity.y * time;
+
+    vec2 windUV = uvWind * positionOffset.xy;
+
+    // Apply precalculated rotation matrix (Saves costly sin/cos calls per vertex)
+    vec2 turbulenceUV = (windUV * turbulenceOffset) * precalculatedRot;
+
+    vec2 warp = textureLod(turbulenceNoise, turbulenceUV - windTurbulenceSpeed, 0.0).rg;
+    warp = warp * 2.0 - 1.0;
+    windUV += warp * domainOffset;
+
+    float windBase = textureLod(windNoise, windUV - windSpeed + phase, 0.0).r * 2.0 - 1.0;
+    float windTurbulence = warp.g * 0.5;
+    float windAxis = dot(uvWind * 0.2, windDir);
+    
+    // Gust wave calculation
+    float gusts = sin(windAxis * gustModifiers.x - time * gustModifiers.y);
+    gusts = gusts * 0.5 + 0.5;
+    gusts = smoothstep(0.2, 0.8, gusts);
+    gusts *= gustTurbulence.x + windTurbulence * gustTurbulence.y;
+
+    // Combine baseline wind with the active gust
+    float windSway = sin(windBase * 1.5 + windTurbulence) * swayMultiplier.x + windTurbulence * swayMultiplier.y;
+    float terrainSway = sin(windAxis * terrainWave.x - time * terrainWave.y);
+    windSway *= 1.0 + terrainSway * terrainWave.z;
+    
+    // Mix using your tuned gustBlend (e.g., x=0.4 constant, y=2.8 peak)
+    windSway *= mix(gustBlend.x, gustBlend.y, gusts);
+
+    // Bending curve along the blade height
+    float bend = pow(uv.y, bendStiffness);
+    bend = smoothstep(0.0, 1.0, bend);
+
+    // Apply the master wind modifiers early to evaluate true structural displacement
+    windSway *= bend * windMultiplier * windOffset;
+
+    // REALISM FIXED: Total grass length conservation.
+    // As windSway increases horizontal push, the blade pulls DOWNWARD on the Y axis.
+    float currentHorizontalDisplacement = abs(windSway);
+    float lift = -sqrt(max(0.0, (positionOffset.z * positionOffset.z) - (currentHorizontalDisplacement * currentHorizontalDisplacement)));
+    // Add a baseline offset so it scales relative to unbent height
+    lift += positionOffset.z; 
+
+    vec3 windPosition = vec3(
+        windSway * windDir.x,
+        lift,
+        windSway * windDir.y
+    );
+
+    return windPosition;
+}
+
 /*
 #
 # Chatgpt so called AAA

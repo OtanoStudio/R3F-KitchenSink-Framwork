@@ -138,3 +138,22 @@ vec2 uvParallaxRM(
 
     return currentUV;
 }
+
+vec2 parallax(
+    float depth, 
+    vec3 n, 
+    vec3 t, 
+    vec3 v
+) 
+{
+	vec3 normal = normalize(n);
+	vec3 tangent = normalize(t);
+	vec3 bitangent = cross(normal, tangent);
+	vec3 view = normalize(v);
+	vec3 view_tangent = vec3(dot(view, tangent), dot(view, bitangent), dot(view, normal));
+	vec2 offset = (view_tangent.xy / max(view_tangent.z, 0.001)) * depth;
+	offset = vec2(-offset.x, offset.y);
+	
+	return offset;
+
+}
