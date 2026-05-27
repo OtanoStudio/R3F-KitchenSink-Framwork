@@ -26,7 +26,8 @@ root.render(
             antialias: true,
             alpha: true,
         }}
-    >   <OrbitControls makeDefault />
+    >   
+    {/* <OrbitControls makeDefault /> */}
         {/* <Perf /> */}
         <Experience />
         {/* <EffectComposer>

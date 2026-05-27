@@ -427,7 +427,7 @@ void main()
 
     // 1. Hemisphere Lighting
     float hemiMix = normal.y * 0.5 + 0.5;
-    vec3 hemiLight = mix(groundColor, skyColor * 1.2, hemiMix);
+    vec3 hemiLight = mix(groundColor, skyColor * 1.7, hemiMix);
     float thicknessMask = smoothstep(0.2, 0.8, uv.y); 
     vec3 colorSubSurface = translucentColor * translucent * thicknessMask;
 
@@ -458,8 +458,8 @@ export default function TerrainGrass({
   groundLightColor = '#414141',
   translucenyColor = '#faff6b',
   sunPosition = [10, 20, 10],
-  translucenyDist = 0.45,
-  translucenyPow = 4.0,
+  translucenyDist = 0.32,
+  translucenyPow = 1.5,
   macroNoisePath = './textures/noise/noisePerlinWind.webp',
   turbulencePath = './textures/noise/noiseWindVelocity.webp',
   grassTiles = './textures/tiles/grass/grassSingleStrands.webp',
