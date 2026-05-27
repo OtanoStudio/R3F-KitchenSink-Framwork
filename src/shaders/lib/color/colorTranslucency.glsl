@@ -3,16 +3,17 @@ float translucency(
     vec3 viewDir, 
     vec3 normal, 
     float distortion, 
-    float strength )
+    float power )
 {
+    lightDir = normalize(lightDir);
+    viewDir = normalize(viewDir);
+    normal = normalize(normal);
 
-    vec3 H = normalize( -lightDir + normal * distortion );
+    vec3 distortedLight = normalize(lightDir + normal * distortion);
 
-    return pow(
-        clamp(dot(viewDir, -H), 0.0, 1.0 ),
-        strength
-    );
+    float transDot = max(dot(viewDir, -distortedLight), 0.0);
 
+    return pow(transDot, power);
 }
 
 float translucency( 
@@ -24,7 +25,7 @@ float translucency(
 
     return pow(
         clamp(dot( -lightDir, normal), 0.0, 1.0 ),
-        strength
+        distortion
     );
 
 }

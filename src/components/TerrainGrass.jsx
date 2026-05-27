@@ -360,6 +360,9 @@ uniform vec3 groundColor;
 uniform vec3 sunPosition;
 uniform sampler2D grassColorTexture;
 uniform sampler2D grassShapeAtlas;
+uniform float translucenyStrength;
+uniform float translucenyDistortion;
+uniform vec3 translucentColor;
 
 varying vec3 vNormal;
 varying vec2 vUv;
@@ -391,15 +394,18 @@ float translucency(
     vec3 viewDir, 
     vec3 normal, 
     float distortion, 
-    float strength )
+    float power )
 {
 
-    vec3 H = normalize( -lightDir + normal * distortion );
+    lightDir = normalize(lightDir);
+    viewDir = normalize(viewDir);
+    normal = normalize(normal);
 
-    return pow(
-        clamp(dot(viewDir, -H), 0.0, 1.0 ),
-        strength
-    );
+    vec3 distortedLight = normalize(lightDir + normal * distortion);
+
+    float transDot = max(dot(viewDir, -distortedLight), 0.0);
+
+    return pow(transDot, power);
 
 }
 
@@ -410,7 +416,7 @@ void main()
     vec3 normal = normalize(vNormal);
     vec2 uv2 = uv;
     uv2.y = clamp( uv.y, 0.005, 0.995 );
-    float translucent = translucency( sunPosition, vViewDir, normal, 3.0, 1.3 );
+    float translucent = translucency( sunPosition, vViewDir, normal, translucenyDistortion, translucenyStrength );
     vec2 spriteUV = uvGetRandomSprite( uv2, vInstance, ivec2( 2, 2 ) );
     float grassAtlas = texture( grassShapeAtlas, spriteUV ).r;
 
@@ -422,7 +428,8 @@ void main()
     // 1. Hemisphere Lighting
     float hemiMix = normal.y * 0.5 + 0.5;
     vec3 hemiLight = mix(groundColor, skyColor * 1.2, hemiMix);
-    vec3 colorSubSurface = vec3( 0.0, 0.84, 0.2 ) * translucent;
+    float thicknessMask = smoothstep(0.2, 0.8, uv.y); 
+    vec3 colorSubSurface = translucentColor * translucent * thicknessMask;
 
     // 2. Lambert Diffuse Lighting
     vec3 sunDir = normalize(sunPosition);
@@ -438,7 +445,7 @@ void main()
 
     if( grassAtlas < 0.5 ) discard;
 
-    gl_FragColor = vec4( finalColor * colorSubSurface, grassAtlas);
+    gl_FragColor = vec4( finalColor + colorSubSurface, grassAtlas);
 }
 `;
 
@@ -446,11 +453,13 @@ void main()
 export default function TerrainGrass({
   bladeCount = 20000,
   areaSize = 12,
-  grassTipColor = '#b8e100',
   grassBaseColor = '#1b8188',
   skyLightColor = '#ffffff',
   groundLightColor = '#414141',
+  translucenyColor = '#faff6b',
   sunPosition = [10, 20, 10],
+  translucenyDist = 0.45,
+  translucenyPow = 4.0,
   macroNoisePath = './textures/noise/noisePerlinWind.webp',
   turbulencePath = './textures/noise/noiseWindVelocity.webp',
   grassTiles = './textures/tiles/grass/grassSingleStrands.webp',
@@ -461,25 +470,16 @@ export default function TerrainGrass({
 
   const [windNoiseMap, turbulenceMap, grassAtlas, grassColorGradient] = useTexture([macroNoisePath, turbulencePath, grassTiles, grassGradient]);
 
-  useLayoutEffect(() => {
-    if (windNoiseMap) {
-      windNoiseMap.wrapS = windNoiseMap.wrapT = THREE.RepeatWrapping;
-      windNoiseMap.needsUpdate = true;
-    }
-    if (turbulenceMap) {
-      turbulenceMap.wrapS = turbulenceMap.wrapT = THREE.RepeatWrapping;
-      turbulenceMap.needsUpdate = true;
-    }
-      if( grassAtlas )
-      {
-      grassAtlas.wrapS = grassAtlas.wrapT = THREE.ClampToEdgeWrapping;
-      grassAtlas.needsUpdate = true;
-      }
-      if( grassColorGradient )
-      {
-        grassColorGradient.colorSpace = THREE.SRGBColorSpace;
-      }
-  }, [windNoiseMap, turbulenceMap, grassAtlas, grassColorGradient]);
+    windNoiseMap.wrapS = windNoiseMap.wrapT = THREE.RepeatWrapping;
+
+    turbulenceMap.wrapS = turbulenceMap.wrapT = THREE.RepeatWrapping;
+    
+
+    grassAtlas.wrapS = grassAtlas.wrapT = THREE.ClampToEdgeWrapping;
+  
+
+     grassColorGradient.colorSpace = THREE.SRGBColorSpace;
+ 
 
   const uniforms = useMemo(() => {
     return {
@@ -492,6 +492,9 @@ export default function TerrainGrass({
       timeScale: { value: 0.32 },
       turbStrength: { value: 0.07 },
       turbFrequency: { value: 1.3 },
+      translucenyDistortion: { value: translucenyDist},
+      translucenyStrength: { value: translucenyPow },
+      translucentColor: { value: new THREE.Color( translucenyColor )},
       grassColorTexture : { value: grassColorGradient },
       diffuseColor: { value: new THREE.Color(grassBaseColor) },
       skyColor: { value: new THREE.Color(skyLightColor) },
