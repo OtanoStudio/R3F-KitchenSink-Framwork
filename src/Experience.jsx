@@ -13,6 +13,7 @@ import ParallaxDepth from "./components/ParallaxDepth.jsx"
 import { CyborgPlane } from './components/CyborgPlane.jsx'
 import TerrainFog from "./components/TerrainFog.jsx"
 import { NearestFilter, RGBADepthPacking } from "three/src/constants.js"
+import TerrainGrass from "./components/TerrainGrass.jsx"
 
 
 export default function Experience()
@@ -61,25 +62,31 @@ export default function Experience()
             <DigitizePlane position={[ 0, 0, -0.08 ]} digaDensity={ new Vector3( 0.1, 0.05, 0.025 )} /> */}
             {/* <DigitalTrianglePortal /> */}
             
-            <GrassField />
-            <mesh 
-                rotation-x={ -90 * Math.PI / 180 }
-                position-y={ -0.49 }
+            {/* <GrassField /> */}
+            <group 
+                rotation-x={ 8 * Math.PI / 180 }
+                position-z={ -2 }
             >
-                <planeGeometry args={[12, 12]} />
-                <meshBasicMaterial color='#5e3958' />
-            </mesh>
+                <TerrainGrass />
+                <mesh 
+                    rotation-x={ -90 * Math.PI / 180 }
+                    position-y={ -0.01 }
+                >
+                    <planeGeometry args={[12, 12]} />
+                    <meshBasicMaterial color='#5e3958' />
+                </mesh>
+            </group>
 
             {/* <ParallaxDepth /> */}
             {/* <CyborgPlane /> */}
             {/* <TerrainFog
                 rotation-x={ -90 * Math.PI / 180}
-                position-y={ .08 }
+                position-y={ .3 }
                 ref={ fog1 }
-            /> */}
-            {/* <TerrainFog
+            />
+            <TerrainFog
                 rotation-x={ -90 * Math.PI / 180}
-                position-y={ .173 }
+                position-y={ .4 }
                 noiseScrollSpeed={ -0.04 }
                 fogParallaxAmt={ 0.5 }
                 ref={ fog2 }
