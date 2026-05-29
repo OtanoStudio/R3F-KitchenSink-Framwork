@@ -13,7 +13,7 @@ const root = ReactDOM.createRoot(document.querySelector('#root'))
 
 root.render(
     <div className='webgl-container'>
-        {/* <GrassUI /> */}
+        <GrassUI />
     <Canvas
         camera={ {
             fov: 45,

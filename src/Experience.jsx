@@ -3,7 +3,7 @@ import { Vector3 } from "three"
 import DigitalTrianglePortal from "./components/DigitalTrianglePortal"
 import ODSLogo from "./components/ODSLogo"
 import GrassField from "./components/GrassField"
-import { Text, useDepthBuffer, useFBO } from "@react-three/drei"
+import { Center, Float, Sky, Text, useDepthBuffer, useFBO } from "@react-three/drei"
 import { useFrame, useThree } from "@react-three/fiber"
 import useMouse from './hooks/useMouse.jsx'
 import gsap from "gsap"
@@ -14,6 +14,8 @@ import { CyborgPlane } from './components/CyborgPlane.jsx'
 import TerrainFog from "./components/TerrainFog.jsx"
 import { NearestFilter, RGBADepthPacking } from "three/src/constants.js"
 import TerrainGrass from "./components/TerrainGrass.jsx"
+import { GlassSign } from './components/GlassSign.jsx'
+
 
 
 export default function Experience()
@@ -21,7 +23,9 @@ export default function Experience()
 
     const fog1 = useRef();
     const fog2 = useRef();
+    const groupRef = useRef();
     const { size } = useThree();
+    const { x, y } = useMouse();
 
     const sceneFBO = useFBO(
             size.width,
@@ -33,6 +37,7 @@ export default function Experience()
                 magFilter: NearestFilter,
             }
     )
+
     useFrame( ( { gl, camera, scene }, delta ) =>
     {
         // fog1.current.visible = false;
@@ -52,6 +57,11 @@ export default function Experience()
 
         // gl.render( scene, camera );
 
+        gsap.to(camera.rotation,{
+            y: gsap.utils.mapRange( 0, window.innerWidth, -.02, .02, x ),
+            x: gsap.utils.mapRange( 0, window.innerHeight, -.02, .02, y )
+        })
+
     })
 
 
@@ -64,18 +74,39 @@ export default function Experience()
             {/* <DigitalTrianglePortal /> */}
             
             {/* <GrassField /> */}
-            <group 
-                rotation-x={ 8 * Math.PI / 180 }
-                position-z={ -2 }
+            <Sky
+                rayleigh={0.1}
+            />
+            {/* <Float
+                floatIntensity={ 0.3 }
             >
-                <TerrainGrass />
-                <mesh 
-                    rotation-x={ -90 * Math.PI / 180 }
-                    position-y={ -0.01 }
+                <GlassSign />
+            </Float> */}
+                
+            
+            
+            <group ref={ groupRef }>
+                <group 
+                    rotation-x={ 8 * Math.PI / 180 }
+                    position-z={ -2.7 }
+                    position-y={ -1.5 }
                 >
-                    <planeGeometry args={[12, 12]} />
-                    <meshBasicMaterial color='#5e3958' />
-                </mesh>
+                    <TerrainGrass 
+                        bladeHeight={ 0.3 }
+                        bladeCount={ 101000 }
+                        areaSize={ 20 }
+                        windStrength={ 0.33 }
+                        windTimeScale={ 0.18 }
+                        windScale={ 0.2 }
+                    />
+                    <mesh 
+                        rotation-x={ -90 * Math.PI / 180 }
+                        position-y={ -0.01 }
+                    >
+                        <planeGeometry args={[20, 20]} />
+                        <meshBasicMaterial color='#5e3958' />
+                    </mesh>
+                </group>
             </group>
 
             {/* <ParallaxDepth /> */}
