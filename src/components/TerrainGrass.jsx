@@ -1039,7 +1039,7 @@ GrassDeformResult deformGrass(
     vec3 instancePosition,
     float instanceRotation,
     vec2 instanceScale,
-    float phase,
+    vec2 phaseOffset,
 
     sampler2D windNoiseMap,
     sampler2D turbulenceMap,
@@ -1075,15 +1075,6 @@ GrassDeformResult deformGrass(
 
     float bladeWidth  = instanceScale.x * widthScale;
     float bladeHeight = instanceScale.y;
-
-    // -------------------------------------------------
-    // PHASE OFFSET 
-    // -------------------------------------------------
-    vec2 phaseOffset =
-    vec2(
-        cos(phase),
-        sin(phase)
-    ) * 0.1;
     
     // Apply the offset to the base time
     float localTime = time * timeScale;
@@ -1183,8 +1174,14 @@ void main() {
 
     vUv = uv;
 
-    float phase = fastHash( float( gl_InstanceID ) );
-    phase = phase * 6.28318530718;
+    float rnd = fastHash( float( gl_InstanceID ) );
+    rnd = rnd * 6.28318530718;
+
+    vec2 phase =
+    vec2(
+        cos(rnd) * 16.3432,
+        sin(rnd) * 32.00
+    ) * 0.1;
 
     GrassDeformResult g =
         deformGrass(
