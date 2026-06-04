@@ -1079,7 +1079,11 @@ GrassDeformResult deformGrass(
     // -------------------------------------------------
     // PHASE OFFSET 
     // -------------------------------------------------
-    
+    vec2 phaseOffset =
+    vec2(
+        cos(phase),
+        sin(phase)
+    ) * 0.1;
     
     // Apply the offset to the base time
     float localTime = time * timeScale;
@@ -1102,7 +1106,7 @@ GrassDeformResult deformGrass(
 
     vec2 turbUV =
         ( instancePosition.xz * turbFrequency ) -
-        ( windDirection.xz * localTime + phase );
+        ( windDirection.xz * localTime ) + phaseOffset;
 
     vec3 turbulence =
         texture2D(turbulenceMap, turbUV).rgb * 2.0 - 1.0;
@@ -1180,6 +1184,7 @@ void main() {
     vUv = uv;
 
     float phase = fastHash( float( gl_InstanceID ) );
+    phase = phase * 6.28318530718;
 
     GrassDeformResult g =
         deformGrass(
