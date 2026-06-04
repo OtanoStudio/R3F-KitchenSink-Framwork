@@ -817,12 +817,190 @@ varying vec3 vViewDir;
 
 flat varying int vInstance;
 
+// // -----------------------------------------------------
+// // BEZIER CORE
+// // -----------------------------------------------------
+
+// vec3 getCubicBezierPosition(vec3 p0, vec3 p1, vec3 p2, vec3 p3, float t) {
+
+//     vec3 q0 = mix(p0, p1, t);
+//     vec3 q1 = mix(p1, p2, t);
+//     vec3 q2 = mix(p2, p3, t);
+
+//     vec3 r0 = mix(q0, q1, t);
+//     vec3 r1 = mix(q1, q2, t);
+
+//     return mix(r0, r1, t);
+// }
+
+// vec3 getCubicBezierTangent(vec3 p0, vec3 p1, vec3 p2, vec3 p3, float t) {
+
+//     vec3 q0 = mix(p0, p1, t);
+//     vec3 q1 = mix(p1, p2, t);
+//     vec3 q2 = mix(p2, p3, t);
+
+//     vec3 r0 = mix(q0, q1, t);
+//     vec3 r1 = mix(q1, q2, t);
+
+//     return normalize(r1 - r0);
+// }
+
+// // -----------------------------------------------------
+// // WIND + DEFORMATION FUNCTION
+// // -----------------------------------------------------
+
+// struct GrassDeformResult {
+//     vec3 position;
+//     vec3 tangent;
+//     vec3 normal;
+// };
+
+// GrassDeformResult deformGrass(
+
+//     vec3 localPosition,
+//     vec2 uv,
+
+//     vec3 instancePosition,
+//     float instanceRotation,
+//     vec2 instanceScale,
+//     float instanceRandom,
+
+//     sampler2D windNoiseMap,
+//     sampler2D turbulenceMap,
+
+//     vec3 windDirection,
+//     float time,
+//     float timeScale,
+//     float windScale,
+//     float maxWindStrength,
+//     float turbStrength,
+//     float turbFrequency,
+
+//     // ---------------------------
+//     // BEZIER CONTROL PARAMETERS
+//     // ---------------------------
+//     float bendLower,
+//     float bendMid,
+//     float bendUpper,
+//     float windInfluence,
+//     float widthScale
+
+// ) {
+
+//     GrassDeformResult r;
+
+//     float t = uv.y;
+
+//     // -------------------------------------------------
+//     // BASIS
+//     // -------------------------------------------------
+
+//     float s = sin(instanceRotation);
+//     float c = cos(instanceRotation);
+
+//     vec3 rightDir = vec3(c, 0.0, -s);
+
+//     float bladeWidth  = instanceScale.x * widthScale;
+//     float bladeHeight = instanceScale.y;
+
+//     // -------------------------------------------------
+//     // WIND
+//     // -------------------------------------------------
+
+//     vec2 macroUV =
+//         (instancePosition.xz * windScale) -
+//         (windDirection.xz * time * timeScale);
+
+//     float macroGust =
+//         texture2D(windNoiseMap, macroUV).r;
+
+//     vec3 macroWind =
+//         windDirection *
+//         macroGust *
+//         maxWindStrength;
+
+//     vec2 turbUV =
+//         (instancePosition.xz * turbFrequency) -
+//         (windDirection.xz * time * timeScale * 2.5);
+
+//     vec3 turbulence =
+//         texture2D(turbulenceMap, turbUV).rgb * 2.0 - 1.0;
+
+//     vec3 microWind =
+//         turbulence *
+//         turbStrength *
+//         macroGust;
+
+//     vec3 windForce =
+//         (macroWind + microWind) * windInfluence;
+
+//     // -------------------------------------------------
+//     // BEZIER CONTROL POINTS (PARAMETERIZED)
+//     // -------------------------------------------------
+
+//     vec3 p0 = vec3(0.0);
+
+//     vec3 p1 = vec3(0.0, bladeHeight * bendLower, 0.0);
+
+//     vec3 p2 =
+//         vec3(0.0, bladeHeight * bendMid, 0.0) +
+//         (windForce * 0.5);
+
+//     vec3 p3 =
+//         vec3(0.0, bladeHeight * bendUpper, 0.0) +
+//         windForce;
+
+//     // -------------------------------------------------
+//     // LENGTH PRESERVATION
+//     // -------------------------------------------------
+
+//     p2 = normalize(p2) * (bladeHeight * 0.666);
+//     p3 = normalize(p3) * bladeHeight;
+
+//     // -------------------------------------------------
+//     // CURVE
+//     // -------------------------------------------------
+
+//     vec3 pos =
+//         getCubicBezierPosition(p0, p1, p2, p3, t);
+
+//     vec3 tan =
+//         getCubicBezierTangent(p0, p1, p2, p3, t);
+
+//     // -------------------------------------------------
+//     // WIDTH
+//     // -------------------------------------------------
+
+//     vec3 offset =
+//         rightDir *
+//         (localPosition.x * bladeWidth);
+
+//     vec3 finalPos =
+//         instancePosition +
+//         pos +
+//         offset;
+
+//     // -------------------------------------------------
+//     // OUTPUT
+//     // -------------------------------------------------
+
+//     r.position = finalPos;
+//     r.tangent  = tan;
+//     r.normal   = normalize(cross(rightDir, tan));
+
+//     return r;
+// }
+
 // -----------------------------------------------------
 // BEZIER CORE
 // -----------------------------------------------------
 
-vec3 getCubicBezierPosition(vec3 p0, vec3 p1, vec3 p2, vec3 p3, float t) {
+// A fast, standard GLSL hash returning 0.0 to 1.0
+float fastHash(float n) {
+    return fract(sin(n) * 43758.5453123);
+}
 
+vec3 getCubicBezierPosition(vec3 p0, vec3 p1, vec3 p2, vec3 p3, float t) {
     vec3 q0 = mix(p0, p1, t);
     vec3 q1 = mix(p1, p2, t);
     vec3 q2 = mix(p2, p3, t);
@@ -834,7 +1012,6 @@ vec3 getCubicBezierPosition(vec3 p0, vec3 p1, vec3 p2, vec3 p3, float t) {
 }
 
 vec3 getCubicBezierTangent(vec3 p0, vec3 p1, vec3 p2, vec3 p3, float t) {
-
     vec3 q0 = mix(p0, p1, t);
     vec3 q1 = mix(p1, p2, t);
     vec3 q2 = mix(p2, p3, t);
@@ -856,14 +1033,13 @@ struct GrassDeformResult {
 };
 
 GrassDeformResult deformGrass(
-
     vec3 localPosition,
     vec2 uv,
 
     vec3 instancePosition,
     float instanceRotation,
     vec2 instanceScale,
-    float instanceRandom,
+    float phase,
 
     sampler2D windNoiseMap,
     sampler2D turbulenceMap,
@@ -884,11 +1060,9 @@ GrassDeformResult deformGrass(
     float bendUpper,
     float windInfluence,
     float widthScale
-
 ) {
 
     GrassDeformResult r;
-
     float t = uv.y;
 
     // -------------------------------------------------
@@ -897,11 +1071,18 @@ GrassDeformResult deformGrass(
 
     float s = sin(instanceRotation);
     float c = cos(instanceRotation);
-
     vec3 rightDir = vec3(c, 0.0, -s);
 
     float bladeWidth  = instanceScale.x * widthScale;
     float bladeHeight = instanceScale.y;
+
+    // -------------------------------------------------
+    // PHASE OFFSET 
+    // -------------------------------------------------
+    
+    
+    // Apply the offset to the base time
+    float localTime = time * timeScale;
 
     // -------------------------------------------------
     // WIND
@@ -909,7 +1090,7 @@ GrassDeformResult deformGrass(
 
     vec2 macroUV =
         (instancePosition.xz * windScale) -
-        (windDirection.xz * time * timeScale);
+        (windDirection.xz * localTime );
 
     float macroGust =
         texture2D(windNoiseMap, macroUV).r;
@@ -920,8 +1101,8 @@ GrassDeformResult deformGrass(
         maxWindStrength;
 
     vec2 turbUV =
-        (instancePosition.xz * turbFrequency) -
-        (windDirection.xz * time * timeScale * 2.5);
+        ( instancePosition.xz * turbFrequency ) -
+        ( windDirection.xz * localTime + phase );
 
     vec3 turbulence =
         texture2D(turbulenceMap, turbUV).rgb * 2.0 - 1.0;
@@ -939,7 +1120,6 @@ GrassDeformResult deformGrass(
     // -------------------------------------------------
 
     vec3 p0 = vec3(0.0);
-
     vec3 p1 = vec3(0.0, bladeHeight * bendLower, 0.0);
 
     vec3 p2 =
@@ -999,6 +1179,8 @@ void main() {
 
     vUv = uv;
 
+    float phase = fastHash( float( gl_InstanceID ) );
+
     GrassDeformResult g =
         deformGrass(
 
@@ -1008,7 +1190,7 @@ void main() {
             instancePosition,
             instanceRotation,
             instanceScale,
-            instanceRandom,
+            phase,
 
             windNoiseMap,
             turbulenceMap,
@@ -1023,7 +1205,7 @@ void main() {
 
             // Bézier tuning controls
             0.125,   // bendLower
-            0.525,   // bendMid
+            0.625,   // bendMid
             1.0,     // bendUpper
             1.0,     // windInfluence
             1.0      // widthScale
@@ -1233,7 +1415,7 @@ export default function TerrainGrass({
   skyLightColor = '#ffffff',
   groundLightColor = '#414141',
 
-  translucenyColor = '#ff6741',
+  translucenyColor = '#ecff41',
 
   sunPosition = [10, 20, 10],
 

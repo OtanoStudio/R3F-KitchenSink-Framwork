@@ -98,6 +98,8 @@ export default function Experience()
                         windStrength={ 0.33 }
                         windTimeScale={ 0.18 }
                         windScale={ 0.2 }
+                        turbulenceFrequency={ 0.07 }
+                        turbulenceStrength={ 0.01 }
                     />
                     <mesh 
                         rotation-x={ -90 * Math.PI / 180 }
