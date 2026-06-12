@@ -56,19 +56,6 @@ float ComputeFog(
 
 }
 
-float ComputeFogDistance(
-    float depth, 
-    float start, 
-    float stop 
-) 
-{
-    float dist = depth * stop;
-    dist -= start;
-
-    return dist;
-
-}
-
 void mainImage( 
     const in vec4 inputColor, 
     const in vec2 uv,
@@ -85,13 +72,7 @@ void mainImage(
 
     }
 
-    // Convert raw non-linear WebGL depth into a clean 0.0 to 1.0 Linear range
-    float viewZ = getViewZ( depth );
-    //float linear01 = ( -viewZ - cameraNear ) / ( cameraFar - cameraNear );
-    float linear01 = -viewZ / cameraFar;
-
-    // Compute distance using your ported function
-    float dist = ComputeFogDistance( linear01, cameraNear, cameraFar );
+    float dist = -getViewZ( depth );
 
     // Compute the physical alpha thickness of the fog (1.0 - visibility)
     float fogVisibility = ComputeFog( dist, start, end, density, fogType );
@@ -102,7 +83,7 @@ void mainImage(
     float gradientSample = clamp( 1.0 - gradientVisibility, 0.0, 0.99 );
 
     // Sample gradient strip and blend
-    vec4 colorFog = texture( gradientMap, vec2( gradientSample, 0.5 ) );
+    vec4 colorFog = texture( gradientMap, vec2( gradientSample, 0.0 ) );
     outputColor = mix( inputColor, colorFog, fogAmt * colorFog.a * intensity );
 
 }

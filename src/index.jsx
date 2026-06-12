@@ -13,7 +13,7 @@ import { AdditiveBlending, SRGBColorSpace } from 'three/src/constants.js'
 
 
 const root = ReactDOM.createRoot(document.querySelector('#root'))
-const gradientColor = new TextureLoader().load( './textures/gradientmaps/fog/fogStylish3.png' );
+const gradientColor = new TextureLoader().load( './textures/gradientmaps/fog/gradient_ramp.png' );
 gradientColor.colorSpace = SRGBColorSpace;
 
 root.render(
@@ -42,7 +42,15 @@ root.render(
         <Experience />
         <EffectComposer>
             {/* <Bloom luminanceThreshold={0} luminanceSmoothing={0.9} mipmapBlur /> */}
-            <FogGradient gradientMap={ gradientColor } />
+            <FogGradient 
+                gradientMap={ gradientColor }
+                start={ 0 }
+                end={ 9 }
+                density={ 0.45 }
+                fogType={ 0 }
+                spread={ 0.9 }
+                clip={ false } 
+            />
         </EffectComposer>
     </Canvas>
     </div>
