@@ -74,9 +74,9 @@ export default function Experience()
             {/* <DigitalTrianglePortal /> */}
             
             {/* <GrassField /> */}
-            <Sky
+            {/* <Sky
                 rayleigh={0.1}
-            />
+            /> */}
             {/* <Float
                 floatIntensity={ 0.3 }
             >

@@ -3,13 +3,18 @@ import ReactDOM from 'react-dom/client'
 import { Canvas } from '@react-three/fiber'
 import GrassUI from './components/GrassUI.jsx'
 import Experience from './Experience.jsx'
-import { OrbitControls } from '@react-three/drei'
+import { OrbitControls, useTexture } from '@react-three/drei'
 import { Bloom, EffectComposer } from '@react-three/postprocessing'
-import { Perf } from 'r3f-perf'
+import { Perf } from 'r3f-webgpu-perf'
+import { FogGradient } from './postprocessing/FogGradient.jsx'
+import { TextureLoader } from 'three'
+import { AdditiveBlending, SRGBColorSpace } from 'three/src/constants.js'
 
 
 
 const root = ReactDOM.createRoot(document.querySelector('#root'))
+const gradientColor = new TextureLoader().load( './textures/gradientmaps/fog/fogStylish3.png' );
+gradientColor.colorSpace = SRGBColorSpace;
 
 root.render(
     <div className='webgl-container'>
@@ -28,11 +33,17 @@ root.render(
         }}
     >   
     {/* <OrbitControls makeDefault /> */}
+        {/* <fogExp2
+            attach="fog"
+            args={['#282828', 0.0015]}
+        /> */}
         {/* <Perf /> */}
+        <Perf />
         <Experience />
-        {/* <EffectComposer>
-            <Bloom luminanceThreshold={0} luminanceSmoothing={0.9} mipmapBlur />
-        </EffectComposer> */}
+        <EffectComposer>
+            {/* <Bloom luminanceThreshold={0} luminanceSmoothing={0.9} mipmapBlur /> */}
+            <FogGradient gradientMap={ gradientColor } />
+        </EffectComposer>
     </Canvas>
     </div>
 )

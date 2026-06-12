@@ -1,4 +1,4 @@
-float noiseHash11(
+float noiseFastHash(
 float n
 )
 {

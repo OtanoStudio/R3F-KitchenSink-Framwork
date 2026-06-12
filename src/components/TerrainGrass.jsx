@@ -1253,7 +1253,7 @@ varying vec3 vViewDir;
 
 flat varying int vInstance;
 
-// -----------------------------------------------------
+// Random Texture from square Atlas
 
 vec2 uvGetRandomSprite(
     vec2 uv,
@@ -1274,7 +1274,7 @@ vec2 uvGetRandomSprite(
            (vec2(x, y) * atlasSize);
 }
 
-// -----------------------------------------------------
+// DICE Translucency 
 
 float translucency(
     vec3 lightDir,
@@ -1388,8 +1388,8 @@ void main() {
 
 export default function TerrainGrass({
 
-  bladeCount = 70000,
-  areaSize = 20,
+  bladeCount = 40000,
+  areaSize = 10,
 
   bladeHeight = 1.0,
   bladeWidth = 0.1,

@@ -1,3 +1,5 @@
+#include ../lib/math/bezier.glsl
+
 struct GrassResult {
     vec3 position;
     vec3 normal;
@@ -13,7 +15,7 @@ GrassResult WindDeform(
     vec3 instancePosition,
     float instanceRotation,
     vec2 instanceScale,
-    float instanceRandom,
+    vec2 phaseOffset,
 
     sampler2D windNoiseMap,
     sampler2D turbulenceMap,
@@ -71,7 +73,7 @@ GrassResult WindDeform(
 
     vec2 turbUV =
         (instancePosition.xz * turbFrequency) -
-        (windDirection.xz * time * timeScale * 2.5);
+        (windDirection.xz * time * timeScale ) + phaseOffset;
 
     vec3 turbulence =
         texture2D(turbulenceMap, turbUV).rgb * 2.0 - 1.0;
@@ -113,10 +115,10 @@ GrassResult WindDeform(
     // -------------------------------------------------
 
     vec3 bezierPos =
-        getCubicBezierPosition(p0, p1, p2, p3, t);
+        bezierQuad(p0, p1, p2, p3, t);
 
     vec3 tangent =
-        getCubicBezierTangent(p0, p1, p2, p3, t);
+        bezierQuadGrad(p0, p1, p2, p3, t);
 
     // -------------------------------------------------
     // WIDTH OFFSET

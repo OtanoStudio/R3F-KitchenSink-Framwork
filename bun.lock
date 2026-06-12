@@ -16,6 +16,7 @@
         "makio-meshline": "^1.4.0",
         "postprocessing": "^6.38.3",
         "r3f-perf": "^7.2.3",
+        "r3f-webgpu-perf": "^0.1.4",
         "react": "~19.2.4",
         "react-dom": "~19.2.4",
         "three": "^0.183.1",
@@ -876,6 +877,8 @@
 
     "proxy-agent": ["proxy-agent@6.4.0", "", { "dependencies": { "agent-base": "^7.0.2", "debug": "^4.3.4", "http-proxy-agent": "^7.0.1", "https-proxy-agent": "^7.0.3", "lru-cache": "^7.14.1", "pac-proxy-agent": "^7.0.1", "proxy-from-env": "^1.1.0", "socks-proxy-agent": "^8.0.2" } }, "sha512-u0piLU+nCOHMgGjRbimiXmA9kM/L9EHh3zL81xCdp7m+Y2pHIsnmbdDoEDoAz5geaonNR6q6+yOPQs6n4T6sBQ=="],
 
+    "proxy-compare": ["proxy-compare@3.0.1", "", {}, "sha512-V9plBAt3qjMlS1+nC8771KNf6oJ12gExvaxnNzN/9yVRLdTv/lc+oJlnSzrdYDAvBfTStPCoiaCOTmTs0adv7Q=="],
+
     "proxy-from-env": ["proxy-from-env@1.1.0", "", {}, "sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg=="],
 
     "pump": ["pump@3.0.3", "", { "dependencies": { "end-of-stream": "^1.1.0", "once": "^1.3.1" } }, "sha512-todwxLMY7/heScKmntwQG8CXVkWUOdYxIvY2s0VWAAMh/nd8SoYiRaKjlr7+iCs984f2P8zvrfWcDDYVb73NfA=="],
@@ -885,6 +888,8 @@
     "queue-microtask": ["queue-microtask@1.2.3", "", {}, "sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A=="],
 
     "r3f-perf": ["r3f-perf@7.2.3", "", { "dependencies": { "@radix-ui/react-icons": "^1.3.0", "@react-three/drei": "^9.103.0", "@stitches/react": "^1.2.8", "@utsubo/events": "^0.1.7", "zustand": "~4.5.2" }, "peerDependencies": { "@react-three/fiber": ">=8.0", "react": ">=18.0", "react-dom": ">=18.0", "three": ">=0.133" }, "optionalPeers": ["@react-three/fiber", "react-dom"] }, "sha512-4+P/N/bnO9D8nzdm3suL/NjPZK/HHdjwpvajhi8j7eB41i2ECN6lX9RXiKSpHzpsDi2ui1tBj6q7/sz5opoqXw=="],
+
+    "r3f-webgpu-perf": ["r3f-webgpu-perf@0.1.4", "", { "dependencies": { "valtio": "^2.1.0" }, "peerDependencies": { "@react-three/fiber": ">=8.0", "react": ">=18.0", "react-dom": ">=18.0", "three": ">=0.150.0" } }, "sha512-Zp76mjw2lGslrFaqQ6N3WRjkFsMkH1XGcxI+pDX5EMedvfVnXvYicn6jJGk2rsEidHWdY2XJfwpBpfGJrqXBNg=="],
 
     "raw-body": ["raw-body@2.4.1", "", { "dependencies": { "bytes": "3.1.0", "http-errors": "1.7.3", "iconv-lite": "0.4.24", "unpipe": "1.0.0" } }, "sha512-9WmIKF6mkvA0SLmA2Knm9+qj89e+j1zqgyn8aXGd7+nAduPoqgI9lO57SAZNn/Byzo5P7JhXTyg9PzaJbH73bA=="],
 
@@ -1033,6 +1038,8 @@
     "utility-types": ["utility-types@3.11.0", "", {}, "sha512-6Z7Ma2aVEWisaL6TvBCy7P8rm2LQoPv6dJ7ecIaIixHcwfbJ0x7mWdbcwlIM5IGQxPZSFYeqRCqlOOeKoJYMkw=="],
 
     "v8n": ["v8n@1.5.1", "", {}, "sha512-LdabyT4OffkyXFCe9UT+uMkxNBs5rcTVuZClvxQr08D5TUgo1OFKkoT65qYRCsiKBl/usHjpXvP4hHMzzDRj3A=="],
+
+    "valtio": ["valtio@2.3.2", "", { "dependencies": { "proxy-compare": "^3.0.1" }, "peerDependencies": { "@types/react": ">=18.0.0", "react": ">=18.0.0" }, "optionalPeers": ["@types/react", "react"] }, "sha512-YXhWQei9IN/ZDce9rhL3trCq9+vVq8M1gWmKVdP3YSZ2gxsmmNWVbxXwf9yG6ffu/dAvAD91nevg8xirGr4Dhg=="],
 
     "vercel": ["vercel@50.29.0", "", { "dependencies": { "@vercel/backends": "0.0.42", "@vercel/blob": "2.3.0", "@vercel/build-utils": "13.7.0", "@vercel/detect-agent": "1.1.1", "@vercel/elysia": "0.1.45", "@vercel/express": "0.1.54", "@vercel/fastify": "0.1.48", "@vercel/fun": "1.3.0", "@vercel/go": "3.4.3", "@vercel/h3": "0.1.54", "@vercel/hono": "0.2.48", "@vercel/hydrogen": "1.3.5", "@vercel/koa": "0.1.28", "@vercel/nestjs": "0.2.49", "@vercel/next": "4.15.42", "@vercel/node": "5.6.12", "@vercel/python": "6.21.0", "@vercel/redwood": "2.4.9", "@vercel/remix-builder": "5.6.0", "@vercel/ruby": "2.3.2", "@vercel/rust": "1.0.5", "@vercel/static-build": "2.8.46", "chokidar": "4.0.0", "esbuild": "0.27.0", "form-data": "^4.0.0", "jose": "5.9.6", "luxon": "^3.4.0", "proxy-agent": "6.4.0" }, "bin": { "vc": "dist/vc.js", "vercel": "dist/vc.js" } }, "sha512-eFhiJHJxnuaPyHLHtICbRlUjpV66UC4NwI4TSqzB3LlOARitR29uiYhqiQM3JChsWR3KgSP99P1ZW/LSxNtD5g=="],
 

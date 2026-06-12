@@ -26,6 +26,7 @@
     "makio-meshline": "^1.4.0",
     "postprocessing": "^6.38.3",
     "r3f-perf": "^7.2.3",
+    "r3f-webgpu-perf": "^0.1.4",
     "react": "~19.2.4",
     "react-dom": "~19.2.4",
     "three": "^0.183.1",
