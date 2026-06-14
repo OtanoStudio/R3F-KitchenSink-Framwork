@@ -3,7 +3,7 @@ vec3 reconstructWorldPos(
     float depth,
     mat4 invProjMat,
     mat4 invViewMat,
-    int renderType,
+    int renderType
 )
 {
 

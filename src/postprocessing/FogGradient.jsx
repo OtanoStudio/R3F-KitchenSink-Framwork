@@ -20,6 +20,9 @@ uniform float density;
 uniform int fogType;
 uniform float spread;
 uniform bool clip;
+uniform mat4 invMat;
+uniform float heightStart;
+uniform float heightEnd;
 
 
 float ComputeFog(
@@ -62,6 +65,38 @@ float ComputeFog(
 
 }
 
+vec3 reconstructWorldPos(
+    vec2 uv,
+    float depth,
+    mat4 invMat,
+    int renderType
+)
+{
+
+    vec3 NDC = vec3(0.0 );
+
+    switch( renderType )
+    {
+        case 0:
+            NDC = vec3(uv, depth)  * 2.0 - 1.0;
+        break;
+
+        case 1:
+            NDC = vec3(uv  * 2.0 - 1.0, depth);
+        break;
+
+        default:
+            NDC = vec3(uv, depth)  * 2.0 - 1.0;
+        break;
+    }
+
+    vec4 world = invMat * vec4(NDC, 1.0);
+    world.xyz /= world.w;
+
+    return world.xyz;
+
+}
+
 void mainImage( 
     const in vec4 inputColor, 
     const in vec2 uv,
@@ -78,11 +113,16 @@ void mainImage(
 
     }
 
+    vec3 worldPos = reconstructWorldPos( uv, depth, invMat, 0 );
+
     float dist = -getViewZ( depth );
+    float heightOffset = 1.0 - smoothstep( heightStart, heightEnd, worldPos.y );
 
     // Compute the physical alpha thickness of the fog (1.0 - visibility)
     float fogVisibility = ComputeFog( dist, start, end, density, fogType );
     float fogAmt = 1.0 - fogVisibility;
+    fogAmt *= heightOffset;
+
 
     // Compute where on the gradient strip to look, integrating the color spread factor
     float gradientVisibility = ComputeFog( dist * spread, start, end, density, fogType );
@@ -97,7 +137,8 @@ void mainImage(
 
 class FogGradientImpl extends Effect {
     constructor({ 
-        blendFunction, 
+        blendFunction,
+        invMat, 
         gradientMap = null, 
         intensity = 1.0, 
         start = 0.0, // Only used if fogType = 0 (Linear)
@@ -106,6 +147,8 @@ class FogGradientImpl extends Effect {
         fogType = 2, // 0 = Linear, 1 = Exp, 2 = Exp2
         spread = 1.0, // Adjusts the color distribution stretch
         clip = false, // clip in shader when beyond 0.99999
+        heightStart = 0.0, // height start
+        heightEnd = 0.1, // height end
 
     } = {}) {
         super( "FogGradient", frag, {
@@ -119,7 +162,10 @@ class FogGradientImpl extends Effect {
                 [ "density", new Uniform( density ) ],
                 [ "fogType", new Uniform( fogType ) ],
                 [ "spread", new Uniform( spread ) ],
-                [ "clip", new Uniform( clip ) ]
+                [ "clip", new Uniform( clip ) ],
+                [ "invMat", new Uniform( invMat ) ],
+                [ "heightStart", new Uniform( heightStart ) ],
+                [ "heightEnd", new Uniform( heightEnd ) ]
             ])
         });
     }
@@ -133,6 +179,9 @@ class FogGradientImpl extends Effect {
     set fogType( value ) { this.uniforms.get( "fogType" ).value = value; }
     set spread( value ) { this.uniforms.get( "spread" ).value = value; }
     set clip( value ) { this.uniforms.get( "clip" ).value = value; }
+    set invMat( value ) { this.uniforms.get( "invMat" ).value = value; }
+    set heightStart( value ) { this.uniforms.get( "heightStart" ).value = value; }
+    set heightEnd( value ) { this.uniforms.get( "heightEnd" ).value = value; }
 
 }
 

@@ -74,9 +74,9 @@ export default function Experience()
             {/* <DigitalTrianglePortal /> */}
             
             {/* <GrassField /> */}
-            {/* <Sky
+            <Sky
                 rayleigh={0.1}
-            /> */}
+            />
             {/* <Float
                 floatIntensity={ 0.3 }
             >
@@ -93,8 +93,8 @@ export default function Experience()
                 >
                     <TerrainGrass 
                         bladeHeight={ 0.3 }
-                        bladeCount={ 300000 }
-                        areaSize={ 30 }
+                        bladeCount={ 50000 }
+                        areaSize={ 10 }
                         windStrength={ 0.33 }
                         windTimeScale={ 0.18 }
                         windScale={ 0.2 }

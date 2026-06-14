@@ -4,17 +4,12 @@ import { Canvas } from '@react-three/fiber'
 import GrassUI from './components/GrassUI.jsx'
 import Experience from './Experience.jsx'
 import { OrbitControls, useTexture } from '@react-three/drei'
-import { Bloom, EffectComposer } from '@react-three/postprocessing'
 import { Perf } from 'r3f-webgpu-perf'
-import { FogGradient } from './postprocessing/FogGradient.jsx'
-import { TextureLoader } from 'three'
-import { AdditiveBlending, MultiplyBlending, SRGBColorSpace } from 'three/src/constants.js'
+import PostEffects from './PostEffects.jsx'
 
 
 
 const root = ReactDOM.createRoot(document.querySelector('#root'))
-const gradientColor = new TextureLoader().load( './textures/gradientmaps/fog/fogStylish3.png' );
-gradientColor.colorSpace = SRGBColorSpace;
 
 root.render(
     <div className='webgl-container'>
@@ -40,18 +35,7 @@ root.render(
         {/* <Perf /> */}
         <Perf />
         <Experience />
-        <EffectComposer>
-            {/* <Bloom luminanceThreshold={0} luminanceSmoothing={0.9} mipmapBlur /> */}
-            <FogGradient
-                gradientMap={ gradientColor }
-                start={ 0 }
-                end={ 15 }
-                density={ 2.5 }
-                fogType={ 3 }
-                spread={ 1.0 }
-                clip={ false } 
-            />
-        </EffectComposer>
+        <PostEffects />
     </Canvas>
     </div>
 )
