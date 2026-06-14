@@ -93,8 +93,8 @@ export default function Experience()
                 >
                     <TerrainGrass 
                         bladeHeight={ 0.3 }
-                        bladeCount={ 101000 }
-                        areaSize={ 20 }
+                        bladeCount={ 300000 }
+                        areaSize={ 30 }
                         windStrength={ 0.33 }
                         windTimeScale={ 0.18 }
                         windScale={ 0.2 }

@@ -8,12 +8,12 @@ import { Bloom, EffectComposer } from '@react-three/postprocessing'
 import { Perf } from 'r3f-webgpu-perf'
 import { FogGradient } from './postprocessing/FogGradient.jsx'
 import { TextureLoader } from 'three'
-import { AdditiveBlending, SRGBColorSpace } from 'three/src/constants.js'
+import { AdditiveBlending, MultiplyBlending, SRGBColorSpace } from 'three/src/constants.js'
 
 
 
 const root = ReactDOM.createRoot(document.querySelector('#root'))
-const gradientColor = new TextureLoader().load( './textures/gradientmaps/fog/gradient_ramp.png' );
+const gradientColor = new TextureLoader().load( './textures/gradientmaps/fog/fogStylish3.png' );
 gradientColor.colorSpace = SRGBColorSpace;
 
 root.render(
@@ -42,13 +42,13 @@ root.render(
         <Experience />
         <EffectComposer>
             {/* <Bloom luminanceThreshold={0} luminanceSmoothing={0.9} mipmapBlur /> */}
-            <FogGradient 
+            <FogGradient
                 gradientMap={ gradientColor }
                 start={ 0 }
-                end={ 9 }
-                density={ 0.45 }
-                fogType={ 0 }
-                spread={ 0.9 }
+                end={ 15 }
+                density={ 2.5 }
+                fogType={ 3 }
+                spread={ 1.0 }
                 clip={ false } 
             />
         </EffectComposer>

@@ -47,6 +47,12 @@ float ComputeFog(
             fog = exp2( -fog * fog );
         break;
 
+        case 3: // hybrid uses linear fog as exp2 value
+            float linear = clamp( ( z - start ) / ( end - start ), 0.0, 1.0 );
+            float densityFactor = linear * density;
+            fog = exp2( -densityFactor * densityFactor );
+        break;
+
         default: // linear default
             fog = ( end - z ) / ( end - start );
         break;
