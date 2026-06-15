@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { Canvas } from '@react-three/fiber'
 import GrassUI from './components/GrassUI.jsx'
 import Experience from './Experience.jsx'
-import { OrbitControls, useTexture } from '@react-three/drei'
+import { OrbitControls } from '@react-three/drei'
 import { Perf } from 'r3f-webgpu-perf'
 import PostEffects from './PostEffects.jsx'
 
@@ -33,7 +33,7 @@ root.render(
             args={['#282828', 0.0015]}
         /> */}
         {/* <Perf /> */}
-        <Perf />
+        {/* <Perf /> */}
         <Experience />
         <PostEffects />
     </Canvas>

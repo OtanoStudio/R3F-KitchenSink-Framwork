@@ -12,7 +12,7 @@ import ParallaxDepth from "./components/ParallaxDepth.jsx"
 //import GridLightColumns from "./components/GridLightColumns"
 import { CyborgPlane } from './components/CyborgPlane.jsx'
 import TerrainFog from "./components/TerrainFog.jsx"
-import { NearestFilter, RGBADepthPacking } from "three/src/constants.js"
+import { DoubleSide, NearestFilter, RGBADepthPacking } from "three/src/constants.js"
 import TerrainGrass from "./components/TerrainGrass.jsx"
 import { GlassSign } from './components/GlassSign.jsx'
 
@@ -101,14 +101,15 @@ export default function Experience()
                         turbulenceFrequency={ 0.07 }
                         turbulenceStrength={ 0.01 }
                     />
+                </group>
                     <mesh 
                         rotation-x={ -90 * Math.PI / 180 }
                         position-y={ -0.01 }
                     >
-                        <planeGeometry args={[20, 20]} />
+                        <planeGeometry args={[11, 11]} />
                         <meshBasicMaterial color='#5e3958' />
                     </mesh>
-                </group>
+                
             </group>
 
             {/* <ParallaxDepth /> */}
