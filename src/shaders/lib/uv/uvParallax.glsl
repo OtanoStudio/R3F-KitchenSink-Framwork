@@ -157,3 +157,18 @@ vec2 parallax(
 	return offset;
 
 }
+// unity parllax offset
+vec2 uvParallax(
+    float offset,
+    float height,
+    vec3 viewDir // must be in tangent space multiply viewDir my TBN matrix first
+)
+{
+    
+    float h = offset * height - height / 2.0;
+    vec3 v = normalize( viewDir );
+    v.z += 0.42;
+
+    return h * ( v.xy / v.z );
+
+}
