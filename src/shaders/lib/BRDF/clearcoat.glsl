@@ -45,3 +45,33 @@ float clearcoat(
     return strength * D * F * G / ( 4.0 * ndotv * ndotl + 0.001 );
 
 }
+
+vec4 clearcoat(
+    vec3 N, 
+    vec3 V, 
+    vec3 L, 
+    vec3 H, 
+    float coatRoughness, 
+    float coatIntensity,
+    vec3 lightColor
+) 
+{
+
+    float dotNH = max( 0.0, dot( N, H ) );
+    float dotNV = max( 0.0, dot( N, V ) );
+    float dotNL = max( 0.0, dot( N, L ) );
+
+    float F0 = 0.04; 
+    float coatFresnel = F0 + ( 1.0 - F0 ) * pow( 1.0 - dotNV, 5.0 );
+    coatFresnel *= coatIntensity; 
+
+    float alpha = coatRoughness * coatRoughness;
+    float alphaSq = alpha * alpha;
+    float denom = ( dotNH * dotNH ) * ( alphaSq - 1.0 ) + 1.0;
+    float D = alphaSq / ( 3.14159265359 * denom * denom );
+
+    vec3 specularReflection = vec3( D * coatFresnel * 0.25 ) * dotNL * lightColor;
+
+    return vec4( specularReflection, coatFresnel );
+
+}
