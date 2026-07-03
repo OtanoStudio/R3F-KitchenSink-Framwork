@@ -1,4 +1,4 @@
-lightingBeerPowder(
+float lightingBeerPowder(
     float density,
     float absorption
 )
