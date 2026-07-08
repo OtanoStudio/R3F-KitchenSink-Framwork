@@ -15,9 +15,17 @@ float schlickFresnel(
 ) 
 {
 
-    const float clearcoat = f0;
+    return f0 + ( 1.0 - f0 ) * pow( 1.0 - ndotv, 5.0 );
 
-    return clearcoat + ( 1.0 - clearcoat ) * pow( 1.0 - ndotv, 5.0 );
+}
+float schlickFresnel(
+    float f0,
+    float ndotv,
+    bool clamped
+) 
+{
+
+    return clamped ? f0 + ( 1.0 - f0 ) * pow( clamp( 1.0 - ndotv, 0.0, 1.0 ), 5.0 ) : f0 + ( 1.0 - f0 ) * pow( 1.0 - ndotv, 5.0 );
 
 }
 
