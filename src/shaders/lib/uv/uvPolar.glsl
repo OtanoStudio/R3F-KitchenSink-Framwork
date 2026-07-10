@@ -1,11 +1,12 @@
-vec2 uvPolar(vec2 uv) 
+vec2 uvPolar(vec2 uv)
 {
-  
-    float pi2 = 6.2831853;
+    
+    const float invPI2 = 0.15915494309189535;
 
-    vec2 uvCentered = uv - 0.5;
-    float radius = length(uvCentered);
-    float angle = atan( uvCentered.y, uvCentered.x ) / pi2;
+    vec2 p = uv - 0.5;
+
+    float angle  = fract( atan( p.y, p.x ) * invPI2 + 0.5 );
+    float radius = length( p ) * 2.0;
 
     return vec2( angle, radius );
 

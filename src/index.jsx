@@ -13,13 +13,13 @@ const root = ReactDOM.createRoot(document.querySelector('#root'))
 
 root.render(
     <div className='webgl-container'>
-        <GrassUI />
+        {/* <GrassUI /> */}
     <Canvas
         camera={ {
             fov: 45,
             near: 1,
             far: 1000,
-            position: [ 0, 1, 6 ]
+            position: [ 0, 0, 6 ]
         } }
 
         gl={{
@@ -35,7 +35,7 @@ root.render(
         {/* <Perf /> */}
         {/* <Perf /> */}
         <Experience />
-        <PostEffects />
+        {/* <PostEffects /> */}
     </Canvas>
     </div>
 )

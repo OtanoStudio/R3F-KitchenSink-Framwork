@@ -15,6 +15,7 @@ import TerrainFog from "./components/TerrainFog.jsx"
 import { DoubleSide, NearestFilter, RGBADepthPacking } from "three/src/constants.js"
 import TerrainGrass from "./components/TerrainGrass.jsx"
 import { GlassSign } from './components/GlassSign.jsx'
+import { BasePlane } from './components/BasePlane.jsx'
 
 
 
@@ -25,7 +26,7 @@ export default function Experience()
     const fog2 = useRef();
     const groupRef = useRef();
     const { size } = useThree();
-    const { x, y } = useMouse();
+    // const { x, y } = useMouse();
 
     const sceneFBO = useFBO(
             size.width,
@@ -57,10 +58,10 @@ export default function Experience()
 
         // gl.render( scene, camera );
 
-        gsap.to(camera.rotation,{
-            y: gsap.utils.mapRange( 0, window.innerWidth, -.02, .02, x ),
-            x: gsap.utils.mapRange( 0, window.innerHeight, -.02, .02, y )
-        })
+        // gsap.to(camera.rotation,{
+        //     y: gsap.utils.mapRange( 0, window.innerWidth, -.02, .02, x ),
+        //     x: gsap.utils.mapRange( 0, window.innerHeight, -.02, .02, y )
+        // })
 
     })
 
@@ -74,18 +75,18 @@ export default function Experience()
             {/* <DigitalTrianglePortal /> */}
             
             {/* <GrassField /> */}
-            <Sky
+            {/* <Sky
                 rayleigh={0.1}
-            />
+            /> */}
             {/* <Float
                 floatIntensity={ 0.3 }
             >
                 <GlassSign />
             </Float> */}
                 
+            <BasePlane />
             
-            
-            <group ref={ groupRef }>
+            {/* <group ref={ groupRef }>
                 <group 
                     rotation-x={ 8 * Math.PI / 180 }
                     position-z={ -2.7 }
@@ -110,7 +111,7 @@ export default function Experience()
                         <meshBasicMaterial color='#5e3958' />
                     </mesh>
                 
-            </group>
+            </group> */}
 
             {/* <ParallaxDepth /> */}
             {/* <CyborgPlane /> */}
