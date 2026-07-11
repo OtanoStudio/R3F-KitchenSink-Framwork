@@ -9,7 +9,7 @@ export function BasePlane()
   return (
     <mesh ref={ self } >
         <planeGeometry
-            args={ [ 3, 3, 1, 1 ] }
+            args={ [ 6.5, 6.5, 1, 1 ] }
         />
         <BaseMaterial />
     </mesh>

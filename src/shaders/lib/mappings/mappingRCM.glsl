@@ -1,4 +1,4 @@
-vec2 rayMarchRelaxedConeStep(
+vec2 mappingRCM(
     in vec2      vTexCoords,
     in vec3      vViewDir,
     in sampler2D coneMap,
