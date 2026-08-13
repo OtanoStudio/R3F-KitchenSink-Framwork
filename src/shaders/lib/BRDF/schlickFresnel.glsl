@@ -61,8 +61,8 @@ float schlickFresnelFast(
 }
 
 float schlickFresnelFast(
-    float hdotv,
-    float f0
+    float f0,
+    float hdotv
 ) 
 {
 
