@@ -1,6 +1,7 @@
 uniform float uTime;
 uniform float viewOffset;
 uniform vec2 uResolution;
+uniform sampler2D uMask; // black and white image used to mask the effect
 
 in vec3 vTangent;
 in vec3 vBitangent;
@@ -18,9 +19,11 @@ void main()
     vec2 uv = vUv;
     vec2 uvWorld = vPositionWorld.xy;
     float time = uTime;
+    float mask = texture( uMask, uv ).r;
+    float offset = viewOffset * mask;
 
     vec3 viewTangentOffset = viewDirTangent( -vTangent, vBitangent, vNormal, vView );
-    viewTangentOffset *= viewOffset;
+    viewTangentOffset *= offset;
 
     vec2 uvVT = uv + viewTangentOffset.xy; // used to sample textures
 

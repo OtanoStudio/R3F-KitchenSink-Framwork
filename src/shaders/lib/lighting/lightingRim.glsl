@@ -7,3 +7,13 @@ float lightingRim( vec3 normals, vec3 direction, float density, bool clamped )
     return pow( rimRtn , density );
 
 }
+
+float lightingRim( vec3 normals, vec3 direction, float density, float scale )
+{
+
+    float rimCalc = 1.0 - dot( normalize( normals ), normalize( direction ) );
+
+
+    return scale * pow( rimCalc , density );
+
+}
