@@ -9,6 +9,7 @@ import PostEffects from './PostEffects.jsx'
 
 
 
+
 const root = ReactDOM.createRoot(document.querySelector('#root'))
 
 root.render(
@@ -27,15 +28,15 @@ root.render(
             alpha: true,
         }}
     >   
-    {/* <OrbitControls makeDefault /> */}
+    <OrbitControls makeDefault />
         {/* <fogExp2
             attach="fog"
             args={['#282828', 0.0015]}
         /> */}
         {/* <Perf /> */}
-        {/* <Perf /> */}
+        <Perf />
         <Experience />
-        {/* <PostEffects /> */}
+        <PostEffects />
     </Canvas>
     </div>
 )

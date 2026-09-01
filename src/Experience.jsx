@@ -1,5 +1,5 @@
 
-import { Vector3 } from "three"
+import { Color, Vector3 } from "three"
 import DigitalTrianglePortal from "./components/DigitalTrianglePortal"
 import ODSLogo from "./components/ODSLogo"
 import GrassField from "./components/GrassField"
@@ -16,6 +16,7 @@ import { DoubleSide, NearestFilter, RGBADepthPacking } from "three/src/constants
 import TerrainGrass from "./components/TerrainGrass.jsx"
 import { GlassSign } from './components/GlassSign.jsx'
 import { BasePlane } from './components/BasePlane.jsx'
+import { VolumeCloud } from "./components/VolumeCloud.jsx"
 
 
 
@@ -26,6 +27,7 @@ export default function Experience()
     const fog2 = useRef();
     const groupRef = useRef();
     const { size } = useThree();
+    const blurColor = new Color( '#fe9b1a' );
     // const { x, y } = useMouse();
 
     const sceneFBO = useFBO(
@@ -84,7 +86,17 @@ export default function Experience()
                 <GlassSign />
             </Float> */}
                 
-            <BasePlane />
+            {/* <BasePlane /> */}
+
+            {/* <VolumeCloud scale={ [ 2, 2, 2 ] } /> */}
+
+            <mesh>
+                <boxGeometry />
+                <meshStandardMaterial
+                    emissive={ blurColor }
+                    emissiveIntensity={ 3.0 }
+                />
+            </mesh>
             
             {/* <group ref={ groupRef }>
                 <group 
